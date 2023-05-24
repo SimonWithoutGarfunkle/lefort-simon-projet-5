@@ -1,4 +1,4 @@
-package com.safetynet.SafetyNet;
+package com.projet5.safetynet;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
