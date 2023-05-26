@@ -1,32 +1,4 @@
-DROP TABLE IF EXISTS persons, firestations, medicalrecords;
-
-CREATE TABLE persons  (
-  id INT AUTO_INCREMENT  PRIMARY KEY,
-  firstName VARCHAR(250) NOT NULL,
-  lastName VARCHAR(250) NOT NULL,
-  address VARCHAR(250) NOT NULL,
-  city VARCHAR(250) NOT NULL,
-  zip INT NOT NULL,
-  phone VARCHAR(250) NOT NULL,
-  mail VARCHAR(250) NOT NULL
-);
-
-CREATE TABLE firestations (
-  id INT AUTO_INCREMENT  PRIMARY KEY,
-  address VARCHAR(250) NOT NULL,
-  station INT NOT NULL
-);
-
-CREATE TABLE medicalrecords (
-  id INT AUTO_INCREMENT  PRIMARY KEY,
-  firstName VARCHAR(250) NOT NULL,
-  lastName VARCHAR(250) NOT NULL,
-  birthdate DATE NOT NULL,
-  medications VARCHAR(250) NOT NULL,
-  allergies VARCHAR(250) NOT NULL
-);
-
-INSERT INTO persons (firstName, lastName, address, city, zip, phone, mail) VALUES
+INSERT INTO persons (firstname, lastname, address, city, zip, phone, mail) VALUES
 	('John', 'Boyd', '1509 Culver St', 'Culver', '97451', '841-874-6512', 'jaboyd@email.com'),
 	('Jacob', 'Boyd', '1509 Culver St', 'Culver', '97451', '841-874-6513', 'drk@email.com'),
 	('Tenley', 'Boyd', '1509 Culver St', 'Culver', '97451', '841-874-6512', 'tenz@email.com'),
@@ -66,7 +38,7 @@ INSERT INTO firestations (address, station) VALUES
 	('748 Townings Dr', '3'),
 	('951 LoneTree Rd', '2');
 
-INSERT INTO medicalrecords (firstName, lastName, birthdate, medications, allergies) VALUES
+INSERT INTO medicalrecords (firstname, lastname, birthdate, medications, allergies) VALUES
 	('John', 'Boyd', '1984-06-03', '["aznol:350mg", "hydrapermazol:100mg"]', '["nillacilan"]'),
 	('Jacob', 'Boyd', '1989-06-03', '["pharmacol:5000mg", "terazine:10mg", "noznazol:250mg"]', '[]'),
 	('Tenley', 'Boyd', '2012-02-18', '[]', '["peanut"]'),
