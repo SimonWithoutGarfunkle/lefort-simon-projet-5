@@ -2,16 +2,24 @@ package com.safetynetjson.safetynetjson.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Medicalrecord {
 	
-    private String firstName;
+    @JsonProperty("firstName")
+	private String firstName;
 
+    @JsonProperty("lastName")
     private String lastName;
     
+    @JsonProperty("birthdate")
     private Date birthdate;
     
+    @JsonProperty("medications")
     private String[] medications;
     
+    @JsonProperty("allergies")
     private String[] allergies;
 
 	public String getFirstname() {
@@ -30,6 +38,7 @@ public class Medicalrecord {
 		this.lastName = lastname;
 	}
 
+	@JsonFormat(pattern = "MM/dd/yyyy")
 	public Date getBirthdate() {
 		return birthdate;
 	}
