@@ -2,6 +2,7 @@ package com.safetynetjson.safetynetjson.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynetjson.safetynetjson.model.Firestation;
@@ -14,12 +15,14 @@ public class JsonReader {
 	
 	private static final String JSON_FILE_PATH = "src/main/resources/data.json";
 	
-	public void readJson() {
+	JsonData jsonData;
+	
+	public JsonData readJson() {
 
 	try
 	{
 
-		JsonData jsonData = objectMapper.readValue(new File(JSON_FILE_PATH), JsonData.class);
+		jsonData = objectMapper.readValue(new File(JSON_FILE_PATH), JsonData.class);
 		Person[] persons = jsonData.getPersons();
 		Firestation[] firestations = jsonData.getFirestations();
 		Medicalrecord[] medicalrecords = jsonData.getMedicalrecords();
@@ -32,26 +35,29 @@ public class JsonReader {
         }
 		
 		for (Person person : persons) {
-            System.out.println(person.getFirstname());
-            System.out.println(person.getLastname());
+            System.out.println(person.getFirstName());
+            System.out.println(person.getLastName());
             System.out.println(person.getAddress());
             System.out.println(person.getMail());
             System.out.println("-------------");
         }
 		
 		for (Medicalrecord medicalrecord : medicalrecords) {
-            System.out.println(medicalrecord.getFirstname());
-            System.out.println(medicalrecord.getLastname());
+            System.out.println(medicalrecord.getFirstName());
+            System.out.println(medicalrecord.getLastName());
             System.out.println(medicalrecord.getBirthdate());
-            System.out.println(medicalrecord.getMedications());
-            System.out.println(medicalrecord.getAllergies());
+            System.out.println(Arrays.toString(medicalrecord.getMedications()));
+            System.out.println(Arrays.toString(medicalrecord.getAllergies()));
             System.out.println("-------------");
         }
+		
+
         
 
 	} catch(IOException e) 	{
 		e.printStackTrace();
 	}
+	return jsonData;
 
 }
 }
