@@ -1,6 +1,5 @@
 package com.safetynetjson.safetynetjson.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Person {
@@ -74,11 +73,11 @@ public class Person {
 		this.phone = phone;
 	}
 
-	public String getMail() {
+	public String getEmail() {
 		return email;
 	}
 
-	public void setMail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 

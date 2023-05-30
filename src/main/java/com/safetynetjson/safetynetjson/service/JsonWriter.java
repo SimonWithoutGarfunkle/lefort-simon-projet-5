@@ -1,10 +1,14 @@
-package com.safetynetjson.safetynetjson.util;
+package com.safetynetjson.safetynetjson.service;
 
 import java.io.File;
 import java.io.IOException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.safetynetjson.safetynetjson.model.JsonData;
+
+@Component
 public class JsonWriter {
 	
 	public void writeJson( JsonData jsondata, String fileName) {
