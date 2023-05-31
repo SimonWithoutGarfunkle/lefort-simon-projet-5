@@ -1,6 +1,5 @@
 package com.safetynetjson.safetynetjson.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -38,26 +37,23 @@ public class PersonService {
 
 		persons.add(person);
 
-		jsonData.setPersons(persons);
-
 	}
-	
+
 	public void removePerson(Person person) {
 		JsonData jsonData = jsonDataService.getJsonData();
 		List<Person> persons = jsonData.getPersons();
-		List<Person> iterator = new ArrayList<>(persons);
-		for (Person someone : iterator) {
+		for (Person someone : persons) {
 			if (someone.getFirstName().equals((person).getFirstName())) {
 				if (someone.getLastName().equals(person.getLastName())) {
 					persons.remove(someone);
+					break;
 				}
-				
+
 			}
 		}
 
-		
 	}
-	
+
 	public void updatePerson(Person person) {
 		JsonData jsonData = jsonDataService.getJsonData();
 		List<Person> persons = jsonData.getPersons();
@@ -70,10 +66,40 @@ public class PersonService {
 					someone.setPhone(person.getPhone());
 					someone.setEmail(person.getEmail());
 				}
-				
+
 			}
 		}
-		
+
+	}
+
+	public void patchPerson(Person person) {
+		JsonData jsonData = jsonDataService.getJsonData();
+		List<Person> persons = jsonData.getPersons();
+		for (Person someone : persons) {
+			if (someone.getFirstName().equals((person).getFirstName())) {
+				if (someone.getLastName().equals(person.getLastName())) {
+					if (!(person.getAddress() == null)) {
+						someone.setAddress(person.getAddress());
+					}
+					if (!(person.getCity() == null)) {
+						someone.setCity(person.getCity());
+					}
+					if (!(person.getZip() == null)) {
+						someone.setZip(person.getZip());
+
+					}
+					if (!(person.getPhone() == null)) {
+						someone.setPhone(person.getPhone());
+					}
+					if (!(person.getEmail() == null)) {
+						someone.setEmail(person.getEmail());
+					}
+
+				}
+
+			}
+		}
+
 	}
 
 }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,7 +57,17 @@ public class PersonController {
 		}
 		personService.updatePerson(person);
         
-        return ResponseEntity.status(HttpStatus.CREATED).body("Person updated successfully");
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("FirstName and LastName cant be modified. Person updated successfully");
+    }
+	
+	@PatchMapping("/person")
+    public ResponseEntity<String> patchPerson(@RequestBody Person person) {
+		if (!(personService.isPresent(person))) {
+			return ResponseEntity.badRequest().body("Person not found");
+		}
+		personService.patchPerson(person);
+        
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("FirstName and LastName cant be modified. Person updated successfully");
     }
 	
 	@DeleteMapping("/person")
@@ -66,7 +77,7 @@ public class PersonController {
 		}
 		personService.removePerson(person);
         
-        return ResponseEntity.status(HttpStatus.CREATED).body("Person removed successfully");
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Person removed successfully");
     }
     
 
