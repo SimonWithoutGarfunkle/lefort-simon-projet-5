@@ -105,7 +105,6 @@ public class MedicalrecordService {
 		List<Medicalrecord> medicalrecords = jsonData.getMedicalrecords();
 		LocalDate today = LocalDate.now();
 		Date birthdate;
-		int compteur=0;
 		for (Medicalrecord record : medicalrecords) {
 			if (record.getFirstName().equals(person.getFirstName())
 					&& record.getLastName().equals(person.getLastName())) {

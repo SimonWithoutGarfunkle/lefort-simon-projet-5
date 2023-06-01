@@ -1,5 +1,6 @@
 package com.safetynetjson.safetynetjson.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +89,17 @@ public class FirestationController {
         List<PersonWithAge> persons = personsByStationNumber.listOfPersonsByStationWithAge(personsWithoutAge);
         
 
-        response.put("persons", persons);
+        List<Map<String, Object>> simplifiedPersons = new ArrayList<>();
+        for (Person person : personsWithoutAge) {
+            Map<String, Object> simplifiedPerson = new HashMap<>();
+            simplifiedPerson.put("firstName", person.getFirstName());
+            simplifiedPerson.put("lastName", person.getLastName());
+            simplifiedPerson.put("address", person.getAddress());
+            simplifiedPerson.put("phoneNumber", person.getPhone());
+            simplifiedPersons.add(simplifiedPerson);
+        }
+
+        response.put("persons", simplifiedPersons);
         response.put("personCount", personsByStationNumber.countPeople(persons));
         response.put("childrenCount", personsByStationNumber.countChild(persons));
 
