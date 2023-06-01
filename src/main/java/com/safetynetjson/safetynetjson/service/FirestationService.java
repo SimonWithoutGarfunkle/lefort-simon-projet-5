@@ -1,5 +1,6 @@
 package com.safetynetjson.safetynetjson.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -93,6 +94,25 @@ public class FirestationService {
 		}
 		return result;
 
+	}
+	
+	public List<String> addressCoveredByStation (Long station) {
+		JsonData jsonData = jsonDataService.getJsonData();
+		List<String> result = new ArrayList<>();
+		List<Firestation> firestations = jsonData.getFirestations();
+		for (Firestation firestation : firestations) {
+			if (firestation.getStation()==station) {
+				result.add(firestation.getAddress());
+				
+			}
+		}
+		return result;
+		
+	}
+	
+	public List<String> addressCoveredByStation (Firestation station) {
+		return addressCoveredByStation(station.getStation());
+		
 	}
 
 }

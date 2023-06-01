@@ -1,22 +1,27 @@
 package com.safetynetjson.safetynetjson.service;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.safetynetjson.safetynetjson.model.JsonData;
 import com.safetynetjson.safetynetjson.model.Medicalrecord;
+import com.safetynetjson.safetynetjson.model.Person;
 import com.safetynetjson.safetynetjson.model.Medicalrecord;
 
 @Service
 public class MedicalrecordService {
-	
+
 	private final JsonDataService jsonDataService;
 
 	public MedicalrecordService(JsonDataService jsonDataService) {
 		this.jsonDataService = jsonDataService;
 	}
-	
+
 	public boolean isPresent(Medicalrecord medicalrecord) {
 		JsonData jsonData = jsonDataService.getJsonData();
 		List<Medicalrecord> medicalrecords = jsonData.getMedicalrecords();
@@ -54,7 +59,7 @@ public class MedicalrecordService {
 		}
 
 	}
-	
+
 	public void updateMedicalrecord(Medicalrecord medicalrecord) {
 		JsonData jsonData = jsonDataService.getJsonData();
 		List<Medicalrecord> medicalrecords = jsonData.getMedicalrecords();
@@ -88,7 +93,6 @@ public class MedicalrecordService {
 
 					}
 
-
 				}
 
 			}
@@ -96,5 +100,28 @@ public class MedicalrecordService {
 
 	}
 
+	public int getAge(Person person) {
+		JsonData jsonData = jsonDataService.getJsonData();
+		List<Medicalrecord> medicalrecords = jsonData.getMedicalrecords();
+		LocalDate today = LocalDate.now();
+		Date birthdate;
+		int compteur=0;
+		for (Medicalrecord record : medicalrecords) {
+			if (record.getFirstName().equals(person.getFirstName())
+					&& record.getLastName().equals(person.getLastName())) {
+
+				birthdate = record.getBirthdate();
+				LocalDate birthdateLocal = birthdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				Period agePeriod = Period.between(birthdateLocal, today);
+				int age = agePeriod.getYears();
+				return age;
+
+			} 
+
+		}
+		System.out.println("Medical Record of the person not found");
+		return 0;
+
+	}
 
 }
