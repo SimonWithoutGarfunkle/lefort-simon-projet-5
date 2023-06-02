@@ -45,27 +45,6 @@ public class PersonsByStationNumber {
 
 	}
 	
-	public List<PersonWithAge> listOfPersonsByStationWithAge(List<Person> persons) {
-		return personWithAgeService.addAgeToPersons(persons);
-		
-	}
-	
-	public int countChild(List<PersonWithAge> personsWithAge) {
-		int child = 0;
-		for (PersonWithAge someone : personsWithAge) {
-			if (someone.getIsChild()) {
-				child += 1;
-				
-			} 
-		}
-		return child;
-		
-	}
-	
-	public int countPeople(List<PersonWithAge> personsWithAge) {
-		return personsWithAge.size();
-		
-	}
 	
 
 }

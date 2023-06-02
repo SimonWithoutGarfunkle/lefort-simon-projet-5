@@ -35,5 +35,23 @@ public class PersonWithAgeService {
 
 		return result;
 	}
+	
+	public int countChild(List<PersonWithAge> personsWithAge) {
+		int child = 0;
+		for (PersonWithAge someone : personsWithAge) {
+			if (someone.getAge() <= 18 ) {
+				child += 1;
+				
+			} 
+		}
+		return child;
+		
+	}
+	
+	public int countPeople(List<PersonWithAge> personsWithAge) {
+		return personsWithAge.size();
+		
+	}
+	
 
 }

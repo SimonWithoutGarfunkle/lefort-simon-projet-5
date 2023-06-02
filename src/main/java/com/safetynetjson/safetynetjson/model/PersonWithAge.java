@@ -5,27 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PersonWithAge extends Person {
 
 	@JsonProperty("isChild")
-	private Boolean isChild;
+	private int age;
 
-	public Boolean getIsChild() {
-		return isChild;
+	public int getAge() {
+		return age;
 	}
 
-	public void setIsChild(Boolean isChild) {
-		this.isChild = isChild;
+	public void setAge(int age) {
+		this.age = age;
 	}
 
-	public PersonWithAge(Person person) {
-		this(person, null);
-
-	}
-	
 	public PersonWithAge(Person person, int age) {
-		this(person, age<=18);
-
-	}
-
-	public PersonWithAge(Person person, Boolean bool) {
 		this.setFirstName(person.getFirstName());
 		this.setLastName(person.getLastName());
 		this.setAddress(person.getAddress());
@@ -33,7 +23,7 @@ public class PersonWithAge extends Person {
 		this.setZip(person.getZip());
 		this.setPhone(person.getPhone());
 		this.setEmail(person.getEmail());
-		this.setIsChild(bool);
+		this.setAge(age);
 
 	}
 

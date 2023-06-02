@@ -21,6 +21,7 @@ import com.safetynetjson.safetynetjson.model.PersonWithAge;
 import com.safetynetjson.safetynetjson.model.Firestation;
 import com.safetynetjson.safetynetjson.service.FirestationService;
 import com.safetynetjson.safetynetjson.service.JsonDataService;
+import com.safetynetjson.safetynetjson.service.PersonWithAgeService;
 import com.safetynetjson.safetynetjson.service.PersonsByStationNumber;
 import com.safetynetjson.safetynetjson.service.FirestationService;
 
@@ -32,11 +33,15 @@ public class FirestationController {
 	private final FirestationService firestationService;
 	
     private final PersonsByStationNumber personsByStationNumber;
+    private final PersonWithAgeService personWithAgeService;
 	
-	public FirestationController(JsonDataService jsonDataService, FirestationService firestationService, PersonsByStationNumber personsByStationNumber) {
+	public FirestationController(JsonDataService jsonDataService,
+			FirestationService firestationService, PersonsByStationNumber personsByStationNumber, 
+			PersonWithAgeService personWithAgeService) {
         this.jsonDataService = jsonDataService;
         this.firestationService = firestationService;
         this.personsByStationNumber = personsByStationNumber;
+        this.personWithAgeService = personWithAgeService;
     }
 	
 	@GetMapping("/firestations")
@@ -86,7 +91,7 @@ public class FirestationController {
         
         List<Person> personsWithoutAge = personsByStationNumber.listOfPersonsByStation(stationNumber);
         
-        List<PersonWithAge> persons = personsByStationNumber.listOfPersonsByStationWithAge(personsWithoutAge);
+        List<PersonWithAge> persons = personWithAgeService.addAgeToPersons(personsWithoutAge);
         
 
         List<Map<String, Object>> simplifiedPersons = new ArrayList<>();
@@ -100,8 +105,8 @@ public class FirestationController {
         }
 
         response.put("persons", simplifiedPersons);
-        response.put("personCount", personsByStationNumber.countPeople(persons));
-        response.put("childrenCount", personsByStationNumber.countChild(persons));
+        response.put("personCount", personWithAgeService.countPeople(persons));
+        response.put("childrenCount", personWithAgeService.countChild(persons));
 
         return response;
     }

@@ -1,5 +1,6 @@
 package com.safetynetjson.safetynetjson.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -100,6 +101,19 @@ public class PersonService {
 			}
 		}
 
+	}
+	
+	public List<Person> getPersonsByAddress(String address) {
+		JsonData jsonData = jsonDataService.getJsonData();
+		List<Person> persons = jsonData.getPersons();
+		List<Person> result = new ArrayList<Person>();
+		for (Person someone : persons) {
+			if (someone.getAddress().equals(address)) {
+				result.add(someone);
+				
+			}
+		}
+		return result;
 	}
 
 }
