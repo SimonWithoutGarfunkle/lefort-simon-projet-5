@@ -1,6 +1,7 @@
 package com.safetynetjson.safetynetjson.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,10 +18,10 @@ public class Medicalrecord {
     private Date birthdate;
     
     @JsonProperty("medications")
-    private String[] medications;
+    private List<String> medications;
     
     @JsonProperty("allergies")
-    private String[] allergies;
+    private List<String> allergies;
 
     public String getFirstName() {
         return firstName;
@@ -48,19 +49,19 @@ public class Medicalrecord {
 		this.birthdate = birthdate;
 	}
 
-	public String[] getMedications() {
+	public List<String> getMedications() {
 		return medications;
 	}
 
-	public void setMedications(String[] medications) {
+	public void setMedications(List<String> medications) {
 		this.medications = medications;
 	}
 
-	public String[] getAllergies() {
+	public List<String> getAllergies() {
 		return allergies;
 	}
 
-	public void setAllergies(String[] allergies) {
+	public void setAllergies(List<String> allergies) {
 		this.allergies = allergies;
 	}
 

@@ -7,21 +7,18 @@ import org.springframework.stereotype.Service;
 
 import com.safetynetjson.safetynetjson.model.JsonData;
 import com.safetynetjson.safetynetjson.model.Person;
-import com.safetynetjson.safetynetjson.model.PersonWithAge;
 
 @Service
 public class PersonsByStationNumber {
 
 	private final JsonDataService jsonDataService;
 	private final FirestationService firestationService;
-	private final PersonWithAgeService personWithAgeService;
 
 	List<String> addressCovered = new ArrayList<>();
 
-	public PersonsByStationNumber(JsonDataService jsonDataService, FirestationService firestationService, PersonWithAgeService personWithAgeService) {
+	public PersonsByStationNumber(JsonDataService jsonDataService, FirestationService firestationService) {
 		this.jsonDataService = jsonDataService;
 		this.firestationService = firestationService;
-		this.personWithAgeService = personWithAgeService;
 	}
 
 	public List<Person> listOfPersonsByStation(Long station) {

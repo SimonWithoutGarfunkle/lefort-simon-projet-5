@@ -7,22 +7,20 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.safetynetjson.safetynetjson.model.PersonWithAge;
+import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
 
 
 @Component
-@JsonPropertyOrder({ "childrenAtAddress", "adultsAtAddress" })
 public class ChildAlertView {
 
-	public Map<String, Object> formateChildAlert(List<PersonWithAge> persons) {
+	public Map<String, Object> formateChildAlert(List<PersonWithMedicalrecord> persons) {
 
 		Map<String, Object> response = new HashMap<>();
 
 		List<Map<String, Object>> childrenList = new ArrayList<>();
 		List<Map<String, Object>> adultsList = new ArrayList<>();
 
-		for (PersonWithAge person : persons) {
+		for (PersonWithMedicalrecord person : persons) {
 			if (person.getAge() <= 18) {
 				Map<String, Object> personData = new HashMap<>();
 				personData.put("firstName", person.getFirstName());

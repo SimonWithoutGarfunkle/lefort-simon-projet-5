@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynetjson.safetynetjson.model.JsonData;
 import com.safetynetjson.safetynetjson.model.Person;
-import com.safetynetjson.safetynetjson.model.PersonWithAge;
+import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
 import com.safetynetjson.safetynetjson.model.Firestation;
 import com.safetynetjson.safetynetjson.service.FirestationService;
 import com.safetynetjson.safetynetjson.service.JsonDataService;
-import com.safetynetjson.safetynetjson.service.PersonWithAgeService;
+import com.safetynetjson.safetynetjson.service.PersonWithMedicalRecord;
 import com.safetynetjson.safetynetjson.service.PersonsByStationNumber;
 import com.safetynetjson.safetynetjson.service.FirestationService;
 
@@ -33,11 +33,11 @@ public class FirestationController {
 	private final FirestationService firestationService;
 	
     private final PersonsByStationNumber personsByStationNumber;
-    private final PersonWithAgeService personWithAgeService;
+    private final PersonWithMedicalRecord personWithAgeService;
 	
 	public FirestationController(JsonDataService jsonDataService,
 			FirestationService firestationService, PersonsByStationNumber personsByStationNumber, 
-			PersonWithAgeService personWithAgeService) {
+			PersonWithMedicalRecord personWithAgeService) {
         this.jsonDataService = jsonDataService;
         this.firestationService = firestationService;
         this.personsByStationNumber = personsByStationNumber;
@@ -91,7 +91,7 @@ public class FirestationController {
         
         List<Person> personsWithoutAge = personsByStationNumber.listOfPersonsByStation(stationNumber);
         
-        List<PersonWithAge> persons = personWithAgeService.addAgeToPersons(personsWithoutAge);
+        List<PersonWithMedicalrecord> persons = personWithAgeService.addAgeToPersons(personsWithoutAge);
         
 
         List<Map<String, Object>> simplifiedPersons = new ArrayList<>();

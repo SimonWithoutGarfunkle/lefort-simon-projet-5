@@ -3,6 +3,7 @@ package com.safetynetjson.safetynetjson.service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -120,6 +121,44 @@ public class MedicalrecordService {
 		}
 		System.out.println("Medical Record of the person not found");
 		return 0;
+
+	}
+	
+	public List<String> getMedications(Person person) {
+		JsonData jsonData = jsonDataService.getJsonData();
+		List<Medicalrecord> medicalrecords = jsonData.getMedicalrecords();
+		List<String> result = new ArrayList<String>();
+		for (Medicalrecord record : medicalrecords) {
+			if (record.getFirstName().equals(person.getFirstName())
+					&& record.getLastName().equals(person.getLastName())) {
+
+				result = record.getMedications();
+				return result;
+
+			} 
+
+		}
+		System.out.println("Medical Record of the person not found");
+		return result;
+
+	}
+	
+	public List<String> getAllergies(Person person) {
+		JsonData jsonData = jsonDataService.getJsonData();
+		List<Medicalrecord> medicalrecords = jsonData.getMedicalrecords();
+		List<String> result = new ArrayList<String>();
+		for (Medicalrecord record : medicalrecords) {
+			if (record.getFirstName().equals(person.getFirstName())
+					&& record.getLastName().equals(person.getLastName())) {
+
+				result = record.getAllergies();
+				return result;
+
+			} 
+
+		}
+		System.out.println("Medical Record of the person not found");
+		return result;
 
 	}
 

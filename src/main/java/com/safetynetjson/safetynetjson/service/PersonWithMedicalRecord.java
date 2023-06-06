@@ -6,15 +6,15 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.safetynetjson.safetynetjson.model.Person;
-import com.safetynetjson.safetynetjson.model.PersonWithAge;
+import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
 
 @Service
-public class PersonWithAgeService {
+public class PersonWithMedicalRecord {
 
 	private final JsonDataService jsonDataService;
 	private final MedicalrecordService medicalrecordService;
 
-	public PersonWithAgeService(JsonDataService jsonDataService, MedicalrecordService medicalrecordService) {
+	public PersonWithMedicalRecord(JsonDataService jsonDataService, MedicalrecordService medicalrecordService) {
 		this.jsonDataService = jsonDataService;
 		this.medicalrecordService = medicalrecordService;
 	}
@@ -27,18 +27,18 @@ public class PersonWithAgeService {
 
 	}
 
-	public List<PersonWithAge> addAgeToPersons(List<Person> persons) {
-		List<PersonWithAge> result = new ArrayList<PersonWithAge>();
+	public List<PersonWithMedicalrecord> addAgeToPersons(List<Person> persons) {
+		List<PersonWithMedicalrecord> result = new ArrayList<PersonWithMedicalrecord>();
 		for (Person someone : persons) {
-			result.add(new PersonWithAge(someone, medicalrecordService.getAge(someone)));
+			result.add(new PersonWithMedicalrecord(someone, medicalrecordService.getAge(someone)));
 		}
 
 		return result;
 	}
 	
-	public int countChild(List<PersonWithAge> personsWithAge) {
+	public int countChild(List<PersonWithMedicalrecord> personsWithAge) {
 		int child = 0;
-		for (PersonWithAge someone : personsWithAge) {
+		for (PersonWithMedicalrecord someone : personsWithAge) {
 			if (someone.getAge() <= 18 ) {
 				child += 1;
 				
@@ -48,7 +48,7 @@ public class PersonWithAgeService {
 		
 	}
 	
-	public int countPeople(List<PersonWithAge> personsWithAge) {
+	public int countPeople(List<PersonWithMedicalrecord> personsWithAge) {
 		return personsWithAge.size();
 		
 	}
