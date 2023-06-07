@@ -25,6 +25,12 @@ import com.safetynetjson.safetynetjson.service.PersonWithMedicalRecord;
 import com.safetynetjson.safetynetjson.service.PersonsByStationNumber;
 import com.safetynetjson.safetynetjson.service.FirestationService;
 
+/**
+ * Implemente le CRUD pour la table FireStation (caserne de pompiers)
+ * Cette table contient la liste des adresse de la zone géographique et le n° de la caserne attribuée a chaque adresse
+ * @author Simon
+ *
+ */
 @RestController
 public class FirestationController {
 	
@@ -44,6 +50,11 @@ public class FirestationController {
         this.personWithAgeService = personWithAgeService;
     }
 	
+	
+	/**
+	 * Retourne toutes les correspondences adresse et n° de caserne
+	 * @return json des n° de casernes et des adresses couvertes
+	 */
 	@GetMapping("/firestations")
 	public ResponseEntity<List<Firestation>> getAllFirestations() {
 		
@@ -55,8 +66,15 @@ public class FirestationController {
 	}
 	
 	
-	@PostMapping("/firestation")
-    public ResponseEntity<String> postFirestation(@RequestBody Firestation firestation) {
+	
+	/**
+	 * Ajoute le mapping adresse/n° de caserne à la base de données
+	 * 
+	 * @param firestation adresse et n° de caserne qui la couvre
+	 * @return code de statut de réponse HTTP, 201 attendu
+	 */
+	@PostMapping("/firestation")    
+	public ResponseEntity<String> postFirestation(@RequestBody Firestation firestation) {
 		if (firestationService.addressPresent(firestation)) {
 			return ResponseEntity.badRequest().body("Address already registered");
 		}
@@ -65,6 +83,12 @@ public class FirestationController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Firestation added successfully");
     }
 	
+	/**
+	 * Modifie la caserne attribuée à l'adresse indiquée
+	 * 
+	 * @param firestation adresse et n° de caserne qui la couvre
+	 * @return code de statut de réponse HTTP, 200 attendu
+	 */
 	@PutMapping("/firestation")
     public ResponseEntity<String> putFirestation(@RequestBody Firestation firestation) {
 		if (!(firestationService.addressPresent(firestation))) {
@@ -75,6 +99,13 @@ public class FirestationController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Firestation station updated successfully");
     }
 	
+	/**
+	 * Si le parametre contient un mapping adresse/n° de caserne correct, le supprime de la base
+	 * Si le parametre ne contient qu'une adresse, supprime le mapping (n° de caserne) pour l'adresse indiquée
+	 * 
+	 * @param firestation
+	 * @return String qui précise l'action effectuée (failed, mapping removed ou firestation removed)
+	 */
 	@DeleteMapping("/firestation")
     public ResponseEntity<String> deleteFirestation(@RequestBody Firestation firestation) {
 		if (!(firestationService.addressPresent(firestation))) {
@@ -85,6 +116,11 @@ public class FirestationController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
     }
 	
+	/**
+	 * Retourne la liste des personnes couvertes par le n° de caserne spécifié ainsi qu'un décompte du nombre de personnes et d'enfants 
+	 * @param stationNumber
+	 * @return Json avec la liste des personnes couvertes (nom complet, adresse et téléphone) ainsi que le décompte de personne et d'enfant dans cette liste
+	 */
 	@GetMapping("/firestation")
     public Map<String, Object> getPersonsByStation(@RequestParam("stationNumber") Long stationNumber) {
         Map<String, Object> response = new HashMap<>();

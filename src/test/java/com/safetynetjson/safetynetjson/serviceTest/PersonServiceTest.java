@@ -74,9 +74,7 @@ public class PersonServiceTest {
 
 	}
 	
-	
-
-	
+		
 	@Test
 	public void removePersonTest() {
 
