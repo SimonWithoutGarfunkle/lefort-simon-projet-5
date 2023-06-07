@@ -17,6 +17,12 @@ public class FirestationService {
 		this.jsonDataService = jsonDataService;
 	}
 
+	private List<Firestation> getFirestations() {
+		JsonData jsonData = jsonDataService.getJsonData();
+		return jsonData.getFirestations();
+
+	}
+
 	public boolean isPresent(Firestation firestation) {
 		JsonData jsonData = jsonDataService.getJsonData();
 		List<Firestation> firestations = jsonData.getFirestations();
@@ -31,8 +37,7 @@ public class FirestationService {
 	}
 
 	public boolean addressPresent(Firestation firestation) {
-		JsonData jsonData = jsonDataService.getJsonData();
-		List<Firestation> firestations = jsonData.getFirestations();
+		List<Firestation> firestations = getFirestations();
 		for (Firestation caserne : firestations) {
 			if (caserne.getAddress().equals(firestation.getAddress())) {
 				return true;
@@ -42,19 +47,29 @@ public class FirestationService {
 		return false;
 	}
 
-	public void addFirestation(Firestation firestation) {
-		JsonData jsonData = jsonDataService.getJsonData();
-		List<Firestation> firestations = jsonData.getFirestations();
+	public Firestation returnFirestationFromBase(Firestation firestation) {
+		List<Firestation> firestations = getFirestations();
+		if (isPresent(firestation)) {
+			for (Firestation caserne : firestations) {
+				if (caserne.getAddress().equals(firestation.getAddress())
+						&& caserne.getStation().equals(firestation.getStation())) {
+					return caserne;
+				}
+			}
 
+		}
+		return null;
+
+	}
+
+	public void addFirestation(Firestation firestation) {
+		List<Firestation> firestations = getFirestations();
 		firestations.add(firestation);
 
 	}
 
-
-	
 	public void updateFirestation(Firestation firestation) {
-		JsonData jsonData = jsonDataService.getJsonData();
-		List<Firestation> firestations = jsonData.getFirestations();
+		List<Firestation> firestations = getFirestations();
 		for (Firestation caserne : firestations) {
 			if (caserne.getAddress().equals(firestation.getAddress())) {
 				caserne.setStation(firestation.getStation());
@@ -66,8 +81,8 @@ public class FirestationService {
 	}
 
 	public String removeFirestation(Firestation firestation) {
-		JsonData jsonData = jsonDataService.getJsonData();
-		List<Firestation> firestations = jsonData.getFirestations();
+		List<Firestation> firestations = getFirestations();
+		Firestation stationToRemove = returnFirestationFromBase(firestation);
 		String result = "Request failed";
 
 		if (firestation.getStation() == null) {
@@ -75,44 +90,34 @@ public class FirestationService {
 				if (caserne.getAddress().equals(firestation.getAddress())) {
 					caserne.setStation(null);
 					result = "Station mapping removed from this address";
-					
 
 				}
 			}
 
 		} else {
-			for (Firestation caserne : firestations) {
-				if (caserne.getAddress().equals(firestation.getAddress())) {
-					if (caserne.getStation().equals(firestation.getStation())) {
-						firestations.remove(caserne);
-						result = "Firestation successfully removed";
-						break;			
-					}
-				}
-			}
+			firestations.remove(stationToRemove);
+			result = "Firestation successfully removed";
 
 		}
 		return result;
-
 	}
-	
-	public List<String> addressCoveredByStation (Long station) {
-		JsonData jsonData = jsonDataService.getJsonData();
+
+	public List<String> addressCoveredByStation(Long station) {
+		List<Firestation> firestations = getFirestations();
 		List<String> result = new ArrayList<>();
-		List<Firestation> firestations = jsonData.getFirestations();
 		for (Firestation firestation : firestations) {
-			if (firestation.getStation()==station) {
+			if (firestation.getStation() == station) {
 				result.add(firestation.getAddress());
-				
+
 			}
 		}
 		return result;
-		
+
 	}
-	
-	public List<String> addressCoveredByStation (Firestation station) {
+
+	public List<String> addressCoveredByStation(Firestation station) {
 		return addressCoveredByStation(station.getStation());
-		
+
 	}
 
 }

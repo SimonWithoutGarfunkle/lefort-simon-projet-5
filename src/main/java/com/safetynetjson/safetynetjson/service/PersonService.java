@@ -17,102 +17,91 @@ public class PersonService {
 		this.jsonDataService = jsonDataService;
 	}
 
-	public boolean isPresent(Person person) {
+	private List<Person> getPersons() {
 		JsonData jsonData = jsonDataService.getJsonData();
-		List<Person> persons = jsonData.getPersons();
-		for (Person someone : persons) {
-			if (someone.getFirstName().equals(person.getFirstName())) {
-				if (someone.getLastName().equals(person.getLastName())) {
-					return true;
-				}
-			}
+		return jsonData.getPersons();
+	}
 
+	public boolean isPresent(Person person) {
+		List<Person> persons = getPersons();
+		for (Person someone : persons) {
+			if (someone.getFirstName().equals(person.getFirstName())
+					&& (someone.getLastName().equals(person.getLastName()))) {
+				return true;
+			}
 		}
+
 		return false;
 
 	}
 
-	public void addPerson(Person person) {
-		JsonData jsonData = jsonDataService.getJsonData();
-		List<Person> persons = jsonData.getPersons();
+	public Person returnPersonFromBase(Person person) {
+		List<Person> persons = getPersons();
+		if (isPresent(person)) {
+			for (Person someone : persons) {
+				if (someone.getFirstName().equals(person.getFirstName())
+						&& (someone.getLastName().equals(person.getLastName()))) {
+					return someone;
+				}
+			}
 
+		}
+		return null;
+
+	}
+
+	public void addPerson(Person person) {
+		List<Person> persons = getPersons();
 		persons.add(person);
 
 	}
 
 	public void removePerson(Person person) {
-		JsonData jsonData = jsonDataService.getJsonData();
-		List<Person> persons = jsonData.getPersons();
-		for (Person someone : persons) {
-			if (someone.getFirstName().equals((person).getFirstName())) {
-				if (someone.getLastName().equals(person.getLastName())) {
-					persons.remove(someone);
-					break;
-				}
-
-			}
-
-		}
-		
+		Person personToRemove = returnPersonFromBase(person);
+		List<Person> persons = getPersons();
+		persons.remove(personToRemove);
 
 	}
 
 	public void updatePerson(Person person) {
-		JsonData jsonData = jsonDataService.getJsonData();
-		List<Person> persons = jsonData.getPersons();
-		for (Person someone : persons) {
-			if (someone.getFirstName().equals((person).getFirstName())) {
-				if (someone.getLastName().equals(person.getLastName())) {
-					someone.setAddress(person.getAddress());
-					someone.setCity(person.getCity());
-					someone.setZip(person.getZip());
-					someone.setPhone(person.getPhone());
-					someone.setEmail(person.getEmail());
-				}
-
-			}
-		}
+		Person personToUpdate = returnPersonFromBase(person);
+		personToUpdate.setAddress(person.getAddress());
+		personToUpdate.setCity(person.getCity());
+		personToUpdate.setZip(person.getZip());
+		personToUpdate.setPhone(person.getPhone());
+		personToUpdate.setEmail(person.getEmail());
 
 	}
 
 	public void patchPerson(Person person) {
-		JsonData jsonData = jsonDataService.getJsonData();
-		List<Person> persons = jsonData.getPersons();
-		for (Person someone : persons) {
-			if (someone.getFirstName().equals((person).getFirstName())) {
-				if (someone.getLastName().equals(person.getLastName())) {
-					if (!(person.getAddress() == null)) {
-						someone.setAddress(person.getAddress());
-					}
-					if (!(person.getCity() == null)) {
-						someone.setCity(person.getCity());
-					}
-					if (!(person.getZip() == null)) {
-						someone.setZip(person.getZip());
+		Person personToUpdate = returnPersonFromBase(person);
+		if (!(person.getAddress() == null)) {
+			personToUpdate.setAddress(person.getAddress());
+		}
+		if (!(person.getCity() == null)) {
+			personToUpdate.setCity(person.getCity());
+		}
+		if (!(person.getZip() == null)) {
+			personToUpdate.setZip(person.getZip());
 
-					}
-					if (!(person.getPhone() == null)) {
-						someone.setPhone(person.getPhone());
-					}
-					if (!(person.getEmail() == null)) {
-						someone.setEmail(person.getEmail());
-					}
+		}
+		if (!(person.getPhone() == null)) {
+			personToUpdate.setPhone(person.getPhone());
+		}
+		if (!(person.getEmail() == null)) {
+			personToUpdate.setEmail(person.getEmail());
 
-				}
-
-			}
 		}
 
 	}
-	
+
 	public List<Person> getPersonsByAddress(String address) {
-		JsonData jsonData = jsonDataService.getJsonData();
-		List<Person> persons = jsonData.getPersons();
+		List<Person> persons = getPersons();
 		List<Person> result = new ArrayList<Person>();
 		for (Person someone : persons) {
 			if (someone.getAddress().equals(address)) {
 				result.add(someone);
-				
+
 			}
 		}
 		return result;

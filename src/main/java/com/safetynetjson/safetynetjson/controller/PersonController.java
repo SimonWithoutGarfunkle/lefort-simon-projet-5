@@ -17,6 +17,12 @@ import com.safetynetjson.safetynetjson.model.Person;
 import com.safetynetjson.safetynetjson.service.JsonDataService;
 import com.safetynetjson.safetynetjson.service.PersonService;
 
+/**
+ * Implemente le CRUD pour la table Person (les habitants)
+ * Cette table contient la liste des habitants avec les noms, adresse et coordonnées
+ * @author Simon
+ *
+ */
 @RestController
 public class PersonController {
 	
@@ -29,6 +35,11 @@ public class PersonController {
         this.personService = personService;
     }
 	
+	/**
+	 * Retourne toutes les personnes de la base
+	 * 
+	 * @return json avec les noms, prénoms, adresses completes, email et telephone
+	 */
 	@GetMapping("/persons")
 	public ResponseEntity<List<Person>> getAllPersons() {
 		
@@ -40,6 +51,12 @@ public class PersonController {
 	}
 	
 	
+	/**
+	 * Ajoute la personne spécifiée à la base
+	 * 
+	 * @param person Personne avec nom, prénom, adresse completes email et telephone
+	 * @return code de statut de réponse HTTP, 201 attendu
+	 */
 	@PostMapping("/person")
     public ResponseEntity<String> postPerson(@RequestBody Person person) {
 		if (personService.isPresent(person)) {
@@ -50,6 +67,13 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Person added successfully");
     }
 	
+	/**
+	 * Met à jour les champs de la personne spécifiée : adresse completes email et telephone
+	 * La personne est identifiée avec son nom et son prénom
+	 * 
+	 * @param person
+	 * @return code de statut de réponse HTTP, 200 attendu
+	 */
 	@PutMapping("/person")
     public ResponseEntity<String> putPerson(@RequestBody Person person) {
 		if (!(personService.isPresent(person))) {
@@ -60,6 +84,13 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("FirstName and LastName cant be modified. Person updated successfully");
     }
 	
+	/**
+	 * Mise à jour partiel de la personne spécifiée avec uniquement les champs précisés parmi (adresse completes email et telephone)
+	 * La personne est identifiée avec son nom et son prénom
+	 * 
+	 * @param person
+	 * @return code de statut de réponse HTTP, 200 attendu
+	 */
 	@PatchMapping("/person")
     public ResponseEntity<String> patchPerson(@RequestBody Person person) {
 		if (!(personService.isPresent(person))) {
@@ -70,6 +101,13 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("FirstName and LastName cant be modified. Person updated successfully");
     }
 	
+	/**
+	 * Supprime la personne spécifiée de la base
+	 * La personne est identifiée avec son nom et son prénom
+	 * 
+	 * @param person
+	 * @return code de statut de réponse HTTP, 200 attendu
+	 */
 	@DeleteMapping("/person")
     public ResponseEntity<String> deletePerson(@RequestBody Person person) {
 		if (!(personService.isPresent(person))) {

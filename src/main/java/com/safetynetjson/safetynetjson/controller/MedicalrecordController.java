@@ -13,11 +13,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynetjson.safetynetjson.model.Medicalrecord;
-import com.safetynetjson.safetynetjson.model.Medicalrecord;
 import com.safetynetjson.safetynetjson.model.JsonData;
 import com.safetynetjson.safetynetjson.service.JsonDataService;
 import com.safetynetjson.safetynetjson.service.MedicalrecordService;
 
+/**
+ *  Implemente le CRUD pour la table Medicalrecord (dossier medical)
+ *  Cette table contient les noms, date de naissances, allergies et traitements des personnes enregistrées
+ * @author Simon
+ *
+ */
 @RestController
 public class MedicalrecordController {
 	
@@ -31,6 +36,11 @@ public class MedicalrecordController {
         this.medicalrecordService = medicalrecordService;
     }
 	
+	/**
+	 * Retourne tous les dossiers medicaux de la base
+	 * 
+	 * @return Json avec tous les dossiers medicaux
+	 */
 	@GetMapping("/medicalrecords")
 	public ResponseEntity<List<Medicalrecord>> getAllMedicalrecords() {
 		
@@ -41,6 +51,12 @@ public class MedicalrecordController {
 	    return ResponseEntity.ok(medicalrecords);
 	}
 	
+	/**
+	 * Ajoute le dossier spécifié à la base
+	 * 
+	 * @param medicalrecord
+	 * @return code de statut de réponse HTTP, 201 attendu
+	 */
 	@PostMapping("/medicalrecord")
     public ResponseEntity<String> postMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
 		if (medicalrecordService.isPresent(medicalrecord)) {
@@ -51,6 +67,13 @@ public class MedicalrecordController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Medicalrecord added successfully");
     }
 	
+	/**
+	 * Met à jour la date de naissance, traitements et allergies du dossier spécifié
+	 * Le dossier est identifié avec le nom et le prénom
+	 * 
+	 * @param medicalrecord
+	 * @return code de statut de réponse HTTP, 200 attendu
+	 */
 	@PutMapping("/medicalrecord")
     public ResponseEntity<String> putMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
 		if (!(medicalrecordService.isPresent(medicalrecord))) {
@@ -61,6 +84,13 @@ public class MedicalrecordController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("FirstName and LastName cant be modified. Medicalrecord updated successfully");
     }
 	
+	/**
+	 * Mise à jour partiel du dossier spécifié avec uniquement les champs précisés parmi (date de naissance, traitements et allergies)
+	 * Le dossier est identifié avec le nom et le prénom
+	 * 
+	 * @param medicalrecord
+	 * @return code de statut de réponse HTTP, 201 attendu
+	 */
 	@PatchMapping("/medicalrecord")
     public ResponseEntity<String> patchMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
 		if (!(medicalrecordService.isPresent(medicalrecord))) {
@@ -71,6 +101,13 @@ public class MedicalrecordController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("FirstName and LastName cant be modified. Medicalrecord updated successfully");
     }
 	
+	/**
+	 * Supprime tout le dossier spécifié de la base
+	 * Le dossier est identifié avec le nom et le prénom
+	 * 
+	 * @param medicalrecord
+	 * @return code de statut de réponse HTTP, 201 attendu
+	 */
 	@DeleteMapping("/medicalrecord")
     public ResponseEntity<String> deleteMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
 		if (!(medicalrecordService.isPresent(medicalrecord))) {

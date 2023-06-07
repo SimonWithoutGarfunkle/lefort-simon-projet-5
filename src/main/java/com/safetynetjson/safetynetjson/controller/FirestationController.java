@@ -23,7 +23,6 @@ import com.safetynetjson.safetynetjson.service.FirestationService;
 import com.safetynetjson.safetynetjson.service.JsonDataService;
 import com.safetynetjson.safetynetjson.service.PersonWithMedicalRecord;
 import com.safetynetjson.safetynetjson.service.PersonsByStationNumber;
-import com.safetynetjson.safetynetjson.service.FirestationService;
 
 /**
  * Implemente le CRUD pour la table FireStation (caserne de pompiers)
@@ -53,6 +52,7 @@ public class FirestationController {
 	
 	/**
 	 * Retourne toutes les correspondences adresse et n° de caserne
+	 * 
 	 * @return json des n° de casernes et des adresses couvertes
 	 */
 	@GetMapping("/firestations")
