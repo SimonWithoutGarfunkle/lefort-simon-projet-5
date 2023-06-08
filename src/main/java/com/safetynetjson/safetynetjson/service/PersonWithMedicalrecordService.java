@@ -9,13 +9,11 @@ import com.safetynetjson.safetynetjson.model.Person;
 import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
 
 @Service
-public class PersonWithMedicalRecord {
+public class PersonWithMedicalrecordService {
 
-	private final JsonDataService jsonDataService;
 	private final MedicalrecordService medicalrecordService;
 
-	public PersonWithMedicalRecord(JsonDataService jsonDataService, MedicalrecordService medicalrecordService) {
-		this.jsonDataService = jsonDataService;
+	public PersonWithMedicalrecordService(MedicalrecordService medicalrecordService) {
 		this.medicalrecordService = medicalrecordService;
 	}
 

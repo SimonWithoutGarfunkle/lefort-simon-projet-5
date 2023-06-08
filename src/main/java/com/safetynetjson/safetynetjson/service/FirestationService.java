@@ -120,4 +120,26 @@ public class FirestationService {
 
 	}
 
+	public Firestation getFirestationFromAddress(String address) {
+		List<Firestation> firestations = getFirestations();
+		for (Firestation caserne : firestations) {
+			if (caserne.getAddress().equals(address)) {
+				return caserne;
+			}
+		}
+
+		return null;
+	}
+	
+	public Long getStationFromAddress(String address) {
+		List<Firestation> firestations = getFirestations();
+		for (Firestation caserne : firestations) {
+			if (caserne.getAddress().equals(address)) {
+				return caserne.getStation();
+			}
+		}
+		return null;
+		
+	}
+
 }

@@ -21,7 +21,7 @@ import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
 import com.safetynetjson.safetynetjson.model.Firestation;
 import com.safetynetjson.safetynetjson.service.FirestationService;
 import com.safetynetjson.safetynetjson.service.JsonDataService;
-import com.safetynetjson.safetynetjson.service.PersonWithMedicalRecord;
+import com.safetynetjson.safetynetjson.service.PersonWithMedicalrecordService;
 import com.safetynetjson.safetynetjson.service.PersonsByStationNumber;
 
 /**
@@ -38,11 +38,11 @@ public class FirestationController {
 	private final FirestationService firestationService;
 	
     private final PersonsByStationNumber personsByStationNumber;
-    private final PersonWithMedicalRecord personWithAgeService;
+    private final PersonWithMedicalrecordService personWithAgeService;
 	
 	public FirestationController(JsonDataService jsonDataService,
 			FirestationService firestationService, PersonsByStationNumber personsByStationNumber, 
-			PersonWithMedicalRecord personWithAgeService) {
+			PersonWithMedicalrecordService personWithAgeService) {
         this.jsonDataService = jsonDataService;
         this.firestationService = firestationService;
         this.personsByStationNumber = personsByStationNumber;

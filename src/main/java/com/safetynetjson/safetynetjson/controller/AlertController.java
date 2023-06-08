@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.safetynetjson.safetynetjson.model.Person;
 import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
 import com.safetynetjson.safetynetjson.service.ChildByAddress;
+import com.safetynetjson.safetynetjson.service.CommunityEmail;
+import com.safetynetjson.safetynetjson.service.FireService;
 import com.safetynetjson.safetynetjson.service.FloodStationService;
+import com.safetynetjson.safetynetjson.service.PersonInfo;
 import com.safetynetjson.safetynetjson.service.PersonService;
 import com.safetynetjson.safetynetjson.service.PersonsByStationNumber;
 import com.safetynetjson.safetynetjson.vue.ChildAlertView;
@@ -38,16 +41,27 @@ public class AlertController {
 	private final FloodStationService floodStationService;
 
 	private final FloodStationView floodStationView;
+	
+	private final FireService fireService;
+	
+	private final CommunityEmail communityEmail;
+	
+	private final PersonInfo personInfo;
 
 	public AlertController(PersonService personService, ChildByAddress childByAddress, ChildAlertView childAlertView,
 			PersonsByStationNumber personsByStationNumber, 
-			FloodStationService floodStationService, FloodStationView floodStationView) {
+			FloodStationService floodStationService, FloodStationView floodStationView,
+			FireService fireService, CommunityEmail communityEmail, PersonInfo personInfo) {
+		
 		this.personService = personService;
 		this.childByAddress = childByAddress;
 		this.childAlertView = childAlertView;
 		this.personsByStationNumber = personsByStationNumber;
 		this.floodStationService = floodStationService;
 		this.floodStationView = floodStationView;
+		this.fireService = fireService;
+		this.communityEmail = communityEmail;
+		this.personInfo = personInfo;
 	}
 
 	/**
@@ -117,5 +131,48 @@ public class AlertController {
 
 		return response;
 	}
+	
+	/**
+	 * Retourne la liste des habitants vivant à l’adresse donnée ainsi que le numéro de la caserne de pompiers la desservant
+	 * 
+	 * @param address 
+	 * @return Json des habitants avec la caserne concernée, le nom, le numéro de téléphone, l'âge et les antécédents médicaux (médicaments, posologie et allergies)
+	 */
+	@GetMapping("/fire")
+	public List<Map<String, Object>> getPersonsByAddress(@RequestParam("address") String address) {
+		
+		return fireService.getPersonsForFire(address);
+		
+	}
+	
+	/**
+	 * Retourne la liste des emails des habitants de la ville spécifiée sans doublon
+	 * 
+	 * @param city
+	 * @return Json des emails des habitants
+	 */
+	@GetMapping("/communityEmail")
+	public List<String> getEmailOfCity(@RequestParam("city") String city){
+		return communityEmail.getCommunityEmail(city);
+		
+	}
+	
+	
+	/**
+	 * Retourner le nom, l'adresse, l'âge, l'adresse mail et les antécédents médicaux (médicaments, posologie, allergies) de la personne.
+	 * Si plusieurs personnes portent le même nom et prénom, elles doivent toutes apparaître.
+	 * Attention, cette méthode a été faite pour l'exercice mais ne doit pas etre utilisée en cas de doublons nom/prénom car le rapprochement avec le dossier medical ne serait pas fiable
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 * @return Json avec les infos de toutes les personnes qui correspondent au nom et prénom spécifiés
+	 */
+	@GetMapping("/personInfo")
+	public List<PersonWithMedicalrecord> getInfoPerson(@RequestParam String firstName, @RequestParam String lastName) {	
+		return personInfo.getPersonInfo(firstName, lastName);
+		
+	}
+	
+	
 
 }

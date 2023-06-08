@@ -11,9 +11,9 @@ import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
 @Service
 public class ChildByAddress {
 
-	private final PersonWithMedicalRecord personWithAgeService;
+	private final PersonWithMedicalrecordService personWithAgeService;
 	public ChildByAddress(JsonDataService jsonDataService, PersonService personService,
-			PersonWithMedicalRecord personWithAgeService) {
+			PersonWithMedicalrecordService personWithAgeService) {
 		this.personWithAgeService = personWithAgeService;
 	}
 
