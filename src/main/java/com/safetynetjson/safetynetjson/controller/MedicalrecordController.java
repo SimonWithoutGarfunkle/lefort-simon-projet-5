@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,12 +18,15 @@ import com.safetynetjson.safetynetjson.model.JsonData;
 import com.safetynetjson.safetynetjson.service.JsonDataService;
 import com.safetynetjson.safetynetjson.service.MedicalrecordService;
 
+import jakarta.validation.Valid;
+
 /**
  *  Implemente le CRUD pour la table Medicalrecord (dossier medical)
  *  Cette table contient les noms, date de naissances, allergies et traitements des personnes enregistrées
  * @author Simon
  *
  */
+@Validated
 @RestController
 public class MedicalrecordController {
 	
@@ -58,7 +62,7 @@ public class MedicalrecordController {
 	 * @return code de statut de réponse HTTP, 201 attendu
 	 */
 	@PostMapping("/medicalrecord")
-    public ResponseEntity<String> postMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
+    public ResponseEntity<String> postMedicalrecord(@Valid @RequestBody Medicalrecord medicalrecord) {
 		if (medicalrecordService.isPresent(medicalrecord)) {
 			return ResponseEntity.badRequest().body("Medicalrecord already exists");
 		}
@@ -75,7 +79,7 @@ public class MedicalrecordController {
 	 * @return code de statut de réponse HTTP, 200 attendu
 	 */
 	@PutMapping("/medicalrecord")
-    public ResponseEntity<String> putMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
+    public ResponseEntity<String> putMedicalrecord(@Valid @RequestBody Medicalrecord medicalrecord) {
 		if (!(medicalrecordService.isPresent(medicalrecord))) {
 			return ResponseEntity.badRequest().body("Medicalrecord not found");
 		}
@@ -92,7 +96,7 @@ public class MedicalrecordController {
 	 * @return code de statut de réponse HTTP, 201 attendu
 	 */
 	@PatchMapping("/medicalrecord")
-    public ResponseEntity<String> patchMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
+    public ResponseEntity<String> patchMedicalrecord(@Valid @RequestBody Medicalrecord medicalrecord) {
 		if (!(medicalrecordService.isPresent(medicalrecord))) {
 			return ResponseEntity.badRequest().body("Medicalrecord not found");
 		}
@@ -109,7 +113,7 @@ public class MedicalrecordController {
 	 * @return code de statut de réponse HTTP, 201 attendu
 	 */
 	@DeleteMapping("/medicalrecord")
-    public ResponseEntity<String> deleteMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
+    public ResponseEntity<String> deleteMedicalrecord(@Valid @RequestBody Medicalrecord medicalrecord) {
 		if (!(medicalrecordService.isPresent(medicalrecord))) {
 			return ResponseEntity.badRequest().body("Medicalrecord not found");
 		}

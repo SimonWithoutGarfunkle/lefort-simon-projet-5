@@ -6,12 +6,16 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class Medicalrecord {
 	
-    @JsonProperty("firstName")
+	@NotBlank(message = "firstName is required")
+	@JsonProperty("firstName")
 	private String firstName;
 
-    @JsonProperty("lastName")
+	@NotBlank(message = "lastName is required")
+	@JsonProperty("lastName")
     private String lastName;
     
     @JsonProperty("birthdate")

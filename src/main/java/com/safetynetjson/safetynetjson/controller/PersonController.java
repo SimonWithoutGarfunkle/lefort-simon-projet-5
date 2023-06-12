@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,12 +18,15 @@ import com.safetynetjson.safetynetjson.model.Person;
 import com.safetynetjson.safetynetjson.service.JsonDataService;
 import com.safetynetjson.safetynetjson.service.PersonService;
 
+import jakarta.validation.Valid;
+
 /**
  * Implemente le CRUD pour la table Person (les habitants)
  * Cette table contient la liste des habitants avec les noms, adresse et coordonnées
  * @author Simon
  *
  */
+@Validated
 @RestController
 public class PersonController {
 	
@@ -58,7 +62,7 @@ public class PersonController {
 	 * @return code de statut de réponse HTTP, 201 attendu
 	 */
 	@PostMapping("/person")
-    public ResponseEntity<String> postPerson(@RequestBody Person person) {
+    public ResponseEntity<String> postPerson(@Valid @RequestBody Person person) {
 		if (personService.isPresent(person)) {
 			return ResponseEntity.badRequest().body("Person already exists");
 		}
@@ -75,7 +79,7 @@ public class PersonController {
 	 * @return code de statut de réponse HTTP, 200 attendu
 	 */
 	@PutMapping("/person")
-    public ResponseEntity<String> putPerson(@RequestBody Person person) {
+    public ResponseEntity<String> putPerson(@Valid @RequestBody Person person) {
 		if (!(personService.isPresent(person))) {
 			return ResponseEntity.badRequest().body("Person not found");
 		}
@@ -92,7 +96,7 @@ public class PersonController {
 	 * @return code de statut de réponse HTTP, 200 attendu
 	 */
 	@PatchMapping("/person")
-    public ResponseEntity<String> patchPerson(@RequestBody Person person) {
+    public ResponseEntity<String> patchPerson(@Valid @RequestBody Person person) {
 		if (!(personService.isPresent(person))) {
 			return ResponseEntity.badRequest().body("Person not found");
 		}
@@ -109,7 +113,7 @@ public class PersonController {
 	 * @return code de statut de réponse HTTP, 200 attendu
 	 */
 	@DeleteMapping("/person")
-    public ResponseEntity<String> deletePerson(@RequestBody Person person) {
+    public ResponseEntity<String> deletePerson(@Valid @RequestBody Person person) {
 		if (!(personService.isPresent(person))) {
 			return ResponseEntity.badRequest().body("Person not found");
 		}

@@ -2,12 +2,16 @@ package com.safetynetjson.safetynetjson.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class Person {
 
-    @JsonProperty("firstName")
+	@NotBlank(message = "firstName is required")
+	@JsonProperty("firstName")
     private String firstName;
 
-    @JsonProperty("lastName")
+	@NotBlank(message = "lastName is required")
+	@JsonProperty("lastName")
     private String lastName;
 
     @JsonProperty("address")

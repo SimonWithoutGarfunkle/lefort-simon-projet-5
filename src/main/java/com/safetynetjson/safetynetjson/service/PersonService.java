@@ -17,7 +17,7 @@ public class PersonService {
 		this.jsonDataService = jsonDataService;
 	}
 
-	private List<Person> getPersons() {
+	public List<Person> getPersons() {
 		JsonData jsonData = jsonDataService.getJsonData();
 		return jsonData.getPersons();
 	}

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,8 @@ import com.safetynetjson.safetynetjson.service.JsonDataService;
 import com.safetynetjson.safetynetjson.service.PersonWithMedicalrecordService;
 import com.safetynetjson.safetynetjson.service.PersonsByStationNumber;
 
+import jakarta.validation.Valid;
+
 /**
  * Implemente le CRUD pour la table FireStation (caserne de pompiers)
  * Cette table contient la liste des adresse de la zone géographique et le n° de la caserne attribuée a chaque adresse
@@ -31,6 +34,7 @@ import com.safetynetjson.safetynetjson.service.PersonsByStationNumber;
  *
  */
 @RestController
+@Validated
 public class FirestationController {
 	
 	private final JsonDataService jsonDataService;
@@ -74,7 +78,7 @@ public class FirestationController {
 	 * @return code de statut de réponse HTTP, 201 attendu
 	 */
 	@PostMapping("/firestation")    
-	public ResponseEntity<String> postFirestation(@RequestBody Firestation firestation) {
+	public ResponseEntity<String> postFirestation(@Valid @RequestBody Firestation firestation) {
 		if (firestationService.addressPresent(firestation)) {
 			return ResponseEntity.badRequest().body("Address already registered");
 		}
@@ -90,7 +94,7 @@ public class FirestationController {
 	 * @return code de statut de réponse HTTP, 200 attendu
 	 */
 	@PutMapping("/firestation")
-    public ResponseEntity<String> putFirestation(@RequestBody Firestation firestation) {
+    public ResponseEntity<String> putFirestation(@Valid @RequestBody Firestation firestation) {
 		if (!(firestationService.addressPresent(firestation))) {
 			return ResponseEntity.badRequest().body("Firestation not found");
 		}
@@ -107,7 +111,7 @@ public class FirestationController {
 	 * @return String qui précise l'action effectuée (failed, mapping removed ou firestation removed)
 	 */
 	@DeleteMapping("/firestation")
-    public ResponseEntity<String> deleteFirestation(@RequestBody Firestation firestation) {
+    public ResponseEntity<String> deleteFirestation(@Valid @RequestBody Firestation firestation) {
 		if (!(firestationService.addressPresent(firestation))) {
 			return ResponseEntity.badRequest().body("Firestation not found");
 		}
@@ -122,7 +126,7 @@ public class FirestationController {
 	 * @return Json avec la liste des personnes couvertes (nom complet, adresse et téléphone) ainsi que le décompte de personne et d'enfant dans cette liste
 	 */
 	@GetMapping("/firestation")
-    public Map<String, Object> getPersonsByStation(@RequestParam("stationNumber") Long stationNumber) {
+    public Map<String, Object> getPersonsByStation(@Valid @RequestParam("stationNumber") Long stationNumber) {
         Map<String, Object> response = new HashMap<>();
         
         List<Person> personsWithoutAge = personsByStationNumber.listOfPersonsByStation(stationNumber);

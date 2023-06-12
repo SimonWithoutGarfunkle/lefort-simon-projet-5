@@ -12,8 +12,8 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI usersMicroserviceOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Your API Title")
-                                 .description("Your API Description")
+                .info(new Info().title("SafetyNet Alerts")
+                                 .description("Pour donner les moyens aux premiers secours de mieux se préparer et appréhender toutes les situations")
                                  .version("1.0"));
     }
 }

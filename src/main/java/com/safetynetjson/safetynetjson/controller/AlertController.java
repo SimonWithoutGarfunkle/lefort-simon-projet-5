@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,12 +22,15 @@ import com.safetynetjson.safetynetjson.service.PersonsByStationNumber;
 import com.safetynetjson.safetynetjson.vue.ChildAlertView;
 import com.safetynetjson.safetynetjson.vue.FloodStationView;
 
+import jakarta.validation.Valid;
+
 /**
  * expose les GET pour les requetes complexes.
  * 
  * @author Simon
  *
  */
+@Validated
 @RestController
 public class AlertController {
 
@@ -73,7 +77,7 @@ public class AlertController {
 	 * @return json avec les listes d'enfants et adultes habitants à l'adresse spécifiée
 	 */
 	@GetMapping("/childAlert")
-	public Map<String, Object> getChildByAddress(@RequestParam("address") String address) {
+	public Map<String, Object> getChildByAddress(@Valid @RequestParam("address") String address) {
 		Map<String, Object> response = new HashMap<>();
 
 		List<Person> personsWithoutAge = personService.getPersonsByAddress(address);
@@ -93,7 +97,7 @@ public class AlertController {
 	 * @return json de numéro de téléphone des personnes couvertes par la caserne spécifiée.
 	 */
 	@GetMapping("/phoneAlert")
-	public Map<String, List<String>> getPhoneByStationNumber(@RequestParam("station") Long station) {
+	public Map<String, List<String>> getPhoneByStationNumber(@Valid @RequestParam("station") Long station) {
 
 		Map<String, List<String>> response = new HashMap<>();
 
@@ -121,7 +125,7 @@ public class AlertController {
 	 * @return json des adresses couvertes avec les habitants (nom, numéro de téléphone, age et dossier medical).
 	 */
 	@GetMapping("/flood/stations")
-	public Map<String, Object> getPersonsByStations(@RequestParam("stationNumber") List<Long> stationNumbers) {
+	public Map<String, Object> getPersonsByStations(@Valid @RequestParam("stationNumber") List<Long> stationNumbers) {
 		Map<String, Object> response = new HashMap<>();
 
 		List<String> coveredAddresses = floodStationService.getCoveredAddresses(stationNumbers);
@@ -139,7 +143,7 @@ public class AlertController {
 	 * @return Json des habitants avec la caserne concernée, le nom, le numéro de téléphone, l'âge et les antécédents médicaux (médicaments, posologie et allergies)
 	 */
 	@GetMapping("/fire")
-	public List<Map<String, Object>> getPersonsByAddress(@RequestParam("address") String address) {
+	public List<Map<String, Object>> getPersonsByAddress(@Valid @RequestParam("address") String address) {
 		
 		return fireService.getPersonsForFire(address);
 		
@@ -152,7 +156,7 @@ public class AlertController {
 	 * @return Json des emails des habitants
 	 */
 	@GetMapping("/communityEmail")
-	public List<String> getEmailOfCity(@RequestParam("city") String city){
+	public List<String> getEmailOfCity(@Valid @RequestParam("city") String city){
 		return communityEmail.getCommunityEmail(city);
 		
 	}
@@ -168,7 +172,7 @@ public class AlertController {
 	 * @return Json avec les infos de toutes les personnes qui correspondent au nom et prénom spécifiés
 	 */
 	@GetMapping("/personInfo")
-	public List<PersonWithMedicalrecord> getInfoPerson(@RequestParam String firstName, @RequestParam String lastName) {	
+	public List<PersonWithMedicalrecord> getInfoPerson(@Valid @RequestParam String firstName, @RequestParam String lastName) {	
 		return personInfo.getPersonInfo(firstName, lastName);
 		
 	}

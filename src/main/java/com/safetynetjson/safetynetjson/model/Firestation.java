@@ -1,9 +1,11 @@
 package com.safetynetjson.safetynetjson.model;
 
+import jakarta.validation.constraints.NotBlank;
 
 public class Firestation {	
 
-    private String address;
+	@NotBlank(message="Address is required")
+	private String address;
     
     private Long station;
 

@@ -3,38 +3,47 @@ package com.safetynetjson.safetynetjson.serviceTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynetjson.safetynetjson.model.JsonData;
 import com.safetynetjson.safetynetjson.model.Person;
 import com.safetynetjson.safetynetjson.service.JsonDataService;
 import com.safetynetjson.safetynetjson.service.PersonService;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class PersonServiceTest {
 
-	@Autowired
 	private PersonService personService;
-
-	@Autowired
-	private JsonDataService jsonDataService;
 	
 	private Person personTest;
-
-	@AfterEach
-	public void tearDown() {
-	    personService.removePerson(personTest);
-	}
 	
+	private List<Person> persons;
+	
+	@Mock
+	private JsonDataService jsonDataService;
+
 	@BeforeEach
 	public void setUp() {
+		MockitoAnnotations.openMocks(this);
+		personService = new PersonService(jsonDataService);
 		personTest = createTestPerson();
+		persons = new ArrayList<Person>();		
+		JsonData jsonData = new JsonData();
+		Person personTest = new Person();
+		personTest.setFirstName("personTestFirstName");
+		persons.add(personTest);
+	    jsonData.setPersons(persons);
+	    when(jsonDataService.getJsonData()).thenReturn(jsonData);
 	}
 
 	private Person createTestPerson() {
@@ -47,8 +56,6 @@ public class PersonServiceTest {
 	@Test
 	public void addPersonTest() {
 		// Arrange
-		JsonData jsonData = jsonDataService.getJsonData();
-		List<Person> persons = jsonData.getPersons();
 		int lengthPersons = persons.size();
 
 		// Act
@@ -56,8 +63,10 @@ public class PersonServiceTest {
 
 		// Assert
 		assertEquals(lengthPersons + 1, persons.size());
+		System.out.println(lengthPersons);
 
 	}
+	
 	
 	@Test
 	public void isPresentTest() {
@@ -88,6 +97,7 @@ public class PersonServiceTest {
 		assertFalse(personService.isPresent(personTest));
 
 	}
+	
 	
 
 }
