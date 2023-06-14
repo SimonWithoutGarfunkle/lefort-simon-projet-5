@@ -2,6 +2,8 @@ package com.safetynetjson.safetynetjson.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -34,6 +36,8 @@ public class PersonController {
 	
 	private final PersonService personService;
 	
+    private static Logger logger = LoggerFactory.getLogger(PersonController.class);
+	
 	public PersonController(JsonDataService jsonDataService, PersonService personService) {
         this.jsonDataService = jsonDataService;
         this.personService = personService;
@@ -46,7 +50,7 @@ public class PersonController {
 	 */
 	@GetMapping("/persons")
 	public ResponseEntity<List<Person>> getAllPersons() {
-		
+		logger.info("Recuperation de toutes les personnes");
 		JsonData jsonData = jsonDataService.getJsonData();
 
 		List<Person> persons = jsonData.getPersons();
@@ -63,7 +67,9 @@ public class PersonController {
 	 */
 	@PostMapping("/person")
     public ResponseEntity<String> postPerson(@Valid @RequestBody Person person) {
+		logger.info("Ajout a la liste de "+ person.getFirstName()+" "+person.getLastName());
 		if (personService.isPresent(person)) {
+			logger.error("Personne deja enregistree");
 			return ResponseEntity.badRequest().body("Person already exists");
 		}
 		personService.addPerson(person);
@@ -79,8 +85,10 @@ public class PersonController {
 	 * @return code de statut de réponse HTTP, 200 attendu
 	 */
 	@PutMapping("/person")
-    public ResponseEntity<String> putPerson(@Valid @RequestBody Person person) {
+	public ResponseEntity<String> putPerson(@Valid @RequestBody Person person) {
+		logger.info("Mise a jour de "+ person.getFirstName()+" "+person.getLastName());
 		if (!(personService.isPresent(person))) {
+			logger.error("Personne introuvable");
 			return ResponseEntity.badRequest().body("Person not found");
 		}
 		personService.updatePerson(person);
@@ -97,7 +105,9 @@ public class PersonController {
 	 */
 	@PatchMapping("/person")
     public ResponseEntity<String> patchPerson(@Valid @RequestBody Person person) {
+		logger.info("Mise a jour partielle de "+ person.getFirstName()+" "+person.getLastName());
 		if (!(personService.isPresent(person))) {
+			logger.error("Personne introuvable");
 			return ResponseEntity.badRequest().body("Person not found");
 		}
 		personService.patchPerson(person);
@@ -114,7 +124,9 @@ public class PersonController {
 	 */
 	@DeleteMapping("/person")
     public ResponseEntity<String> deletePerson(@Valid @RequestBody Person person) {
+		logger.info("Suppresion de "+ person.getFirstName()+" "+person.getLastName());
 		if (!(personService.isPresent(person))) {
+			logger.error("Personne introuvable");
 			return ResponseEntity.badRequest().body("Person not found");
 		}
 		personService.removePerson(person);

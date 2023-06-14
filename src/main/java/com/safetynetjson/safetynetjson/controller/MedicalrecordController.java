@@ -2,6 +2,8 @@ package com.safetynetjson.safetynetjson.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -35,6 +37,8 @@ public class MedicalrecordController {
 	
 	private final MedicalrecordService medicalrecordService;
 	
+    private static Logger logger = LoggerFactory.getLogger(MedicalrecordController.class);
+	
 	public MedicalrecordController(JsonDataService jsonDataService, MedicalrecordService medicalrecordService) {
         this.jsonDataService = jsonDataService;
         this.medicalrecordService = medicalrecordService;
@@ -47,7 +51,7 @@ public class MedicalrecordController {
 	 */
 	@GetMapping("/medicalrecords")
 	public ResponseEntity<List<Medicalrecord>> getAllMedicalrecords() {
-		
+		logger.info("Recuperation de tous les dossiers medicaux");
 		JsonData jsonData = jsonDataService.getJsonData();
 
 		List<Medicalrecord> medicalrecords = jsonData.getMedicalrecords();
@@ -80,7 +84,9 @@ public class MedicalrecordController {
 	 */
 	@PutMapping("/medicalrecord")
     public ResponseEntity<String> putMedicalrecord(@Valid @RequestBody Medicalrecord medicalrecord) {
+		logger.info("Mise à jour du dossier medical de " + medicalrecord.getFirstName() +" "+ medicalrecord.getLastName());
 		if (!(medicalrecordService.isPresent(medicalrecord))) {
+			logger.error("Dossier medical introuvable");
 			return ResponseEntity.badRequest().body("Medicalrecord not found");
 		}
 		medicalrecordService.updateMedicalrecord(medicalrecord);
@@ -97,7 +103,9 @@ public class MedicalrecordController {
 	 */
 	@PatchMapping("/medicalrecord")
     public ResponseEntity<String> patchMedicalrecord(@Valid @RequestBody Medicalrecord medicalrecord) {
+		logger.info("Mise à jour partielle du dossier medical de " + medicalrecord.getFirstName() +" "+ medicalrecord.getLastName());
 		if (!(medicalrecordService.isPresent(medicalrecord))) {
+			logger.error("Dossier medical introuvable");
 			return ResponseEntity.badRequest().body("Medicalrecord not found");
 		}
 		medicalrecordService.patchMedicalrecord(medicalrecord);
@@ -114,7 +122,10 @@ public class MedicalrecordController {
 	 */
 	@DeleteMapping("/medicalrecord")
     public ResponseEntity<String> deleteMedicalrecord(@Valid @RequestBody Medicalrecord medicalrecord) {
+		logger.info("Suppresion du dossier medical de " + medicalrecord.getFirstName() +" "+ medicalrecord.getLastName());
+
 		if (!(medicalrecordService.isPresent(medicalrecord))) {
+			logger.error("Dossier medical introuvable");
 			return ResponseEntity.badRequest().body("Medicalrecord not found");
 		}
 		medicalrecordService.removeMedicalrecord(medicalrecord);

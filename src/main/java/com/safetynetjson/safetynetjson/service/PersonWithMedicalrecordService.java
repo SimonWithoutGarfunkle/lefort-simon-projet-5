@@ -3,21 +3,38 @@ package com.safetynetjson.safetynetjson.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.safetynetjson.safetynetjson.model.Person;
 import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
 
+/**
+ * Opérations liées à l'age des personnes
+ * @author Simon
+ *
+ */
 @Service
 public class PersonWithMedicalrecordService {
 
 	private final MedicalrecordService medicalrecordService;
+	
+	private static Logger logger = LoggerFactory.getLogger(PersonWithMedicalrecordService.class);
+
 
 	public PersonWithMedicalrecordService(MedicalrecordService medicalrecordService) {
 		this.medicalrecordService = medicalrecordService;
 	}
 
+	/**
+	 * Verifie la majorité de la personne
+	 * 
+	 * @param person
+	 * @return boolean vrai si la personne a 18 ans ou moins
+	 */
 	public boolean isAChild(Person person) {
+		logger.info("Verification de la majorité de "+person.getFirstName()+" "+person.getLastName());
 		if (medicalrecordService.getAge(person) > 18) {
 			return false;
 		}
@@ -25,7 +42,14 @@ public class PersonWithMedicalrecordService {
 
 	}
 
+	/**
+	 * Complete la liste de personnes spécifiées en ajoutant leur age
+	 * 
+	 * @param persons
+	 * @return liste de personnes enrichie avec leur age
+	 */
 	public List<PersonWithMedicalrecord> addAgeToPersons(List<Person> persons) {
+		logger.info("Ajout des ages a la liste de personne");
 		List<PersonWithMedicalrecord> result = new ArrayList<PersonWithMedicalrecord>();
 		for (Person someone : persons) {
 			result.add(new PersonWithMedicalrecord(someone, medicalrecordService.getAge(someone)));
@@ -34,7 +58,13 @@ public class PersonWithMedicalrecordService {
 		return result;
 	}
 	
+	/**
+	 * Compte le nombre d'enfant dans la liste
+	 * @param personsWithAge
+	 * @return int nombre d'enfant dans la liste spécifiée
+	 */
 	public int countChild(List<PersonWithMedicalrecord> personsWithAge) {
+		logger.info("Decompte du nombre d'enfant dans la liste");
 		int child = 0;
 		for (PersonWithMedicalrecord someone : personsWithAge) {
 			if (someone.getAge() <= 18 ) {
@@ -46,7 +76,14 @@ public class PersonWithMedicalrecordService {
 		
 	}
 	
+	/**
+	 * Compte le nombre de personne dans la liste
+	 * 
+	 * @param personsWithAge
+	 * @return int nombre de personne dans la liste spécifiée
+	 */
 	public int countPeople(List<PersonWithMedicalrecord> personsWithAge) {
+		logger.info("Decompte du nombre de personne dans la liste");
 		return personsWithAge.size();
 		
 	}

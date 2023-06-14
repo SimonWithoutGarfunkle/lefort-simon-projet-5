@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,6 +53,8 @@ public class AlertController {
 	private final CommunityEmail communityEmail;
 	
 	private final PersonInfo personInfo;
+	
+	private static Logger logger = LoggerFactory.getLogger(AlertController.class);
 
 	public AlertController(PersonService personService, ChildByAddress childByAddress, ChildAlertView childAlertView,
 			PersonsByStationNumber personsByStationNumber, 
@@ -78,6 +82,7 @@ public class AlertController {
 	 */
 	@GetMapping("/childAlert")
 	public Map<String, Object> getChildByAddress(@Valid @RequestParam("address") String address) {
+		logger.info("Récupération des enfants habitant l'adresse " + address);
 		Map<String, Object> response = new HashMap<>();
 
 		List<Person> personsWithoutAge = personService.getPersonsByAddress(address);
@@ -99,6 +104,7 @@ public class AlertController {
 	@GetMapping("/phoneAlert")
 	public Map<String, List<String>> getPhoneByStationNumber(@Valid @RequestParam("station") Long station) {
 
+		logger.info("Récupération des numéros de téléphone des résidents couverts par la caserne " + station);
 		Map<String, List<String>> response = new HashMap<>();
 
 		List<Person> persons = personsByStationNumber.listOfPersonsByStation(station);
@@ -126,6 +132,7 @@ public class AlertController {
 	 */
 	@GetMapping("/flood/stations")
 	public Map<String, Object> getPersonsByStations(@Valid @RequestParam("stationNumber") List<Long> stationNumbers) {
+		logger.info("Récupération des foyers desservis par les casernes spécifiées");
 		Map<String, Object> response = new HashMap<>();
 
 		List<String> coveredAddresses = floodStationService.getCoveredAddresses(stationNumbers);
@@ -144,7 +151,7 @@ public class AlertController {
 	 */
 	@GetMapping("/fire")
 	public List<Map<String, Object>> getPersonsByAddress(@Valid @RequestParam("address") String address) {
-		
+		logger.info("Récupération des habitants à l'adresse " + address);
 		return fireService.getPersonsForFire(address);
 		
 	}
@@ -157,6 +164,7 @@ public class AlertController {
 	 */
 	@GetMapping("/communityEmail")
 	public List<String> getEmailOfCity(@Valid @RequestParam("city") String city){
+		logger.info("Récupération des email de la ville " + city);
 		return communityEmail.getCommunityEmail(city);
 		
 	}
@@ -173,6 +181,7 @@ public class AlertController {
 	 */
 	@GetMapping("/personInfo")
 	public List<PersonWithMedicalrecord> getInfoPerson(@Valid @RequestParam String firstName, @RequestParam String lastName) {	
+		logger.info("Récupération du dossier medical de "+ firstName +" "+ lastName);
 		return personInfo.getPersonInfo(firstName, lastName);
 		
 	}

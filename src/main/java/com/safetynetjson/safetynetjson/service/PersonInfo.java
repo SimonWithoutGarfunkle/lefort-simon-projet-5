@@ -3,17 +3,27 @@ package com.safetynetjson.safetynetjson.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.safetynetjson.safetynetjson.model.JsonData;
 import com.safetynetjson.safetynetjson.model.Person;
 import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
 
+/**
+ * Service dédié à l'alerte PersonInfo
+ * retourne toutes les infos de la personne concernées
+ * @author Simon
+ *
+ */
 @Service
 public class PersonInfo {
 	
 	private final JsonDataService jsonDataService;
 	private final MedicalrecordService medicalrecordService;
+	private static Logger logger = LoggerFactory.getLogger(PersonInfo.class);
+
 	
 	public PersonInfo(PersonService personService, JsonDataService jsonDataService, MedicalrecordService medicalrecordService) {
 		this.jsonDataService = jsonDataService;
@@ -27,6 +37,7 @@ public class PersonInfo {
 	 * @return Json avec les infos de toutes les personnes qui correspondent au nom et prénom spécifiés
 	 */
 	public List<PersonWithMedicalrecord> getPersonInfo(String firstName, String lastName) {
+		logger.info("Recherche des infos sur "+firstName+" "+lastName);
 		JsonData jsonData = jsonDataService.getJsonData();
 		List<Person> persons = jsonData.getPersons();		
 		List<PersonWithMedicalrecord> personsInfo = new ArrayList<PersonWithMedicalrecord>();

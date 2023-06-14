@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -42,7 +44,10 @@ public class FirestationController {
 	private final FirestationService firestationService;
 	
     private final PersonsByStationNumber personsByStationNumber;
+    
     private final PersonWithMedicalrecordService personWithAgeService;
+    
+    private static Logger logger = LoggerFactory.getLogger(FirestationController.class);
 	
 	public FirestationController(JsonDataService jsonDataService,
 			FirestationService firestationService, PersonsByStationNumber personsByStationNumber, 
@@ -61,6 +66,7 @@ public class FirestationController {
 	 */
 	@GetMapping("/firestations")
 	public ResponseEntity<List<Firestation>> getAllFirestations() {
+		logger.info("Recuperation de toutes les casernes");
 		
 		JsonData jsonData = jsonDataService.getJsonData();
 
@@ -79,7 +85,9 @@ public class FirestationController {
 	 */
 	@PostMapping("/firestation")    
 	public ResponseEntity<String> postFirestation(@Valid @RequestBody Firestation firestation) {
+		logger.info("Ajout de la caserne "+firestation.getAddress());
 		if (firestationService.addressPresent(firestation)) {
+			logger.error("Adresse déjà enregistrée dans le système");
 			return ResponseEntity.badRequest().body("Address already registered");
 		}
 		firestationService.addFirestation(firestation);
@@ -95,7 +103,9 @@ public class FirestationController {
 	 */
 	@PutMapping("/firestation")
     public ResponseEntity<String> putFirestation(@Valid @RequestBody Firestation firestation) {
+		logger.info("Mise à jour de la caserne "+firestation.getAddress());
 		if (!(firestationService.addressPresent(firestation))) {
+			logger.error("Aucune caserne enregistrée à cette adresse");
 			return ResponseEntity.badRequest().body("Firestation not found");
 		}
 		firestationService.updateFirestation(firestation);
@@ -112,10 +122,13 @@ public class FirestationController {
 	 */
 	@DeleteMapping("/firestation")
     public ResponseEntity<String> deleteFirestation(@Valid @RequestBody Firestation firestation) {
+		logger.info("Suppresion de la caserne "+firestation.getAddress());
 		if (!(firestationService.addressPresent(firestation))) {
+			logger.error("Aucune caserne enregistrée à cette adresse");
 			return ResponseEntity.badRequest().body("Firestation not found");
 		}
 		String result = firestationService.removeFirestation(firestation);
+		logger.info(result);
         
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
     }
@@ -127,7 +140,8 @@ public class FirestationController {
 	 */
 	@GetMapping("/firestation")
     public Map<String, Object> getPersonsByStation(@Valid @RequestParam("stationNumber") Long stationNumber) {
-        Map<String, Object> response = new HashMap<>();
+		logger.info("Récuperation des personnes couvertes par la station " + stationNumber);
+		Map<String, Object> response = new HashMap<>();
         
         List<Person> personsWithoutAge = personsByStationNumber.listOfPersonsByStation(stationNumber);
         
@@ -144,6 +158,7 @@ public class FirestationController {
             simplifiedPersons.add(simplifiedPerson);
         }
 
+        logger.info("Ajout du décompte de personnes à la liste");
         response.put("persons", simplifiedPersons);
         response.put("personCount", personWithAgeService.countPeople(persons));
         response.put("childrenCount", personWithAgeService.countChild(persons));

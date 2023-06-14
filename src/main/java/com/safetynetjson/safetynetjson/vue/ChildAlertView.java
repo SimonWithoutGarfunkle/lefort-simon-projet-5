@@ -5,15 +5,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
 
-
+/**
+ * Mise en forme des données pour l'alerte ChildAlert
+ * @author Simon
+ *
+ */
 @Component
 public class ChildAlertView {
+	
+	private static Logger logger = LoggerFactory.getLogger(ChildAlertView.class);
 
+
+	/**
+	 * Organise la liste des personnes en 2 sous listes : les enfants (18 ans et moins) puis les adultes
+	 * 
+	 * @param persons
+	 * @return
+	 */
 	public Map<String, Object> formateChildAlert(List<PersonWithMedicalrecord> persons) {
+		logger.info("Mise en forme des donnees pour ChildAlert");
 
 		Map<String, Object> response = new HashMap<>();
 
