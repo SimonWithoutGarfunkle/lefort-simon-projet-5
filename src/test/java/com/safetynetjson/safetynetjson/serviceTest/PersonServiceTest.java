@@ -1,5 +1,7 @@
 package com.safetynetjson.safetynetjson.serviceTest;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -24,11 +26,11 @@ import com.safetynetjson.safetynetjson.service.PersonService;
 public class PersonServiceTest {
 
 	private PersonService personService;
-	
+
 	private Person personTest;
-	
+
 	private List<Person> persons;
-	
+
 	@Mock
 	private JsonDataService jsonDataService;
 
@@ -36,14 +38,18 @@ public class PersonServiceTest {
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 		personService = new PersonService(jsonDataService);
+		persons = new ArrayList<Person>();
+		
+		Person personinTestDB = new Person();
+		personinTestDB.setFirstName("firstNameTest");
+		personinTestDB.setLastName("lastNameTest");
+		persons.add(personinTestDB);
+				
 		personTest = createTestPerson();
-		persons = new ArrayList<Person>();		
+		
 		JsonData jsonData = new JsonData();
-		Person personTest = new Person();
-		personTest.setFirstName("personTestFirstName");
-		persons.add(personTest);
-	    jsonData.setPersons(persons);
-	    when(jsonDataService.getJsonData()).thenReturn(jsonData);
+		jsonData.setPersons(persons);
+		when(jsonDataService.getJsonData()).thenReturn(jsonData);
 	}
 
 	private Person createTestPerson() {
@@ -54,6 +60,21 @@ public class PersonServiceTest {
 	}
 
 	@Test
+	public void isPresentTest() {
+		// Arrange
+		boolean testBefore = personService.isPresent(personTest);
+
+		// Act
+
+		personService.addPerson(personTest);
+
+		// Assert
+		boolean testAfter = personService.isPresent(personTest);
+		assertNotEquals(testBefore, testAfter);
+
+	}
+	
+	@Test
 	public void addPersonTest() {
 		// Arrange
 		int lengthPersons = persons.size();
@@ -63,31 +84,15 @@ public class PersonServiceTest {
 
 		// Assert
 		assertEquals(lengthPersons + 1, persons.size());
-		System.out.println(lengthPersons);
 
 	}
-	
-	
-	@Test
-	public void isPresentTest() {
-		// Arrange
-		boolean testBefore = personService.isPresent(personTest);
 
-		// Act
-		
-		personService.addPerson(personTest);
 
-		// Assert
-		boolean testAfter = personService.isPresent(personTest);
-	    assertNotEquals(testBefore, testAfter);
 
-	}
-	
-		
 	@Test
 	public void removePersonTest() {
 
-		// Assert
+		// Arrange
 		personService.addPerson(personTest);
 
 		// Act
@@ -97,7 +102,107 @@ public class PersonServiceTest {
 		assertFalse(personService.isPresent(personTest));
 
 	}
+
+	@Test
+	public void patchPersonTest() {
+	    // Arrange
+	    Person personToUpdate = new Person();
+	    personToUpdate.setFirstName("John");
+	    personToUpdate.setLastName("Doe");
+	    personToUpdate.setAddress("123 Street");
+	    personToUpdate.setCity("City");
+	    personToUpdate.setZip("12345");
+	    personToUpdate.setPhone("123456789");
+	    personToUpdate.setEmail("john.doe@example.com");
+
+	    Person updatedPerson = new Person();
+	    updatedPerson.setFirstName("John");
+	    updatedPerson.setLastName("Doe");
+	    personService.addPerson(updatedPerson);
+
+	    // Act
+	    personService.patchPerson(personToUpdate);
+
+	    // Assert
+	    assertEquals("City", updatedPerson.getCity());
+	    assertEquals("123 Street", updatedPerson.getAddress());
+	    assertEquals("12345", updatedPerson.getZip());
+	    assertEquals("123456789", updatedPerson.getPhone());
+	    assertEquals("john.doe@example.com", updatedPerson.getEmail());
+	}
 	
+	@Test
+	public void patchPersonTestWithNull() {
+	    // Arrange
+	    Person personToUpdate = new Person();
+	    personToUpdate.setFirstName("John");
+	    personToUpdate.setLastName("Doe");
+	    personToUpdate.setAddress("123 Street");
+	    personToUpdate.setCity("City");
+	    personToUpdate.setZip("12345");
+	    personToUpdate.setPhone("123456789");
+	    personToUpdate.setEmail("john.doe@example.com");
+	    personService.addPerson(personToUpdate);
+
+	    Person updatedPerson = new Person();
+	    updatedPerson.setFirstName("John");
+	    updatedPerson.setLastName("Doe");
+
+	    // Act
+	    personService.patchPerson(updatedPerson);
+
+	    // Assert
+	    assertEquals("City", personToUpdate.getCity());
+	    assertEquals("123 Street", personToUpdate.getAddress());
+	    
+		
+	}
 	
+	@Test
+	public void returnPersonFromBaseTest() {
+		// Arrange
+		Person personNameTest = createTestPerson();
+		personService.addPerson(personNameTest);
+		Person testIsPresentPerson = new Person();
+		testIsPresentPerson.setFirstName("firstNameTest");
+		testIsPresentPerson.setLastName("lastNameTest");
+		
+		// Act
+		Person returnPersonTest = personService.returnPersonFromBase(testIsPresentPerson);
+		
+		// Assert
+		assertNotNull(returnPersonTest);
+		
+	}
+	
+	@Test
+	public void returnPersonFromBaseTestNotPresent() {
+		// Arrange
+		Person testIsPresentPerson = createTestPerson();
+		
+		// Act
+		Person returnPersonTest = personService.returnPersonFromBase(testIsPresentPerson);
+		
+		// Assert
+		assertNull(returnPersonTest);
+		
+	}
+	
+	@Test
+	public void returnPersonFromBaseTestOnlyFirstNameFound() {
+		// Arrange
+		Person testIsPresentPerson = new Person();
+		testIsPresentPerson.setFirstName("firstNameTest");
+		testIsPresentPerson.setLastName("azerty");
+		
+		
+		// Act
+		Person returnPersonTest = personService.returnPersonFromBase(testIsPresentPerson);
+		
+		// Assert
+		assertNull(returnPersonTest);
+		
+	}
+
 
 }

@@ -2,8 +2,8 @@ package com.safetynetjson.safetynetjson.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -36,7 +36,7 @@ public class PersonController {
 	
 	private final PersonService personService;
 	
-    private static Logger logger = LoggerFactory.getLogger(PersonController.class);
+	private static final Logger logger = LogManager.getLogger(PersonController.class);
 	
 	public PersonController(JsonDataService jsonDataService, PersonService personService) {
         this.jsonDataService = jsonDataService;
@@ -54,6 +54,7 @@ public class PersonController {
 		JsonData jsonData = jsonDataService.getJsonData();
 
 		List<Person> persons = jsonData.getPersons();
+		logger.info(persons);
 	    
 	    return ResponseEntity.ok(persons);
 	}
@@ -73,7 +74,7 @@ public class PersonController {
 			return ResponseEntity.badRequest().body("Person already exists");
 		}
 		personService.addPerson(person);
-        
+		logger.info(person);
         return ResponseEntity.status(HttpStatus.CREATED).body("Person added successfully");
     }
 	
@@ -92,7 +93,7 @@ public class PersonController {
 			return ResponseEntity.badRequest().body("Person not found");
 		}
 		personService.updatePerson(person);
-        
+		logger.info(person);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("FirstName and LastName cant be modified. Person updated successfully");
     }
 	
@@ -111,7 +112,7 @@ public class PersonController {
 			return ResponseEntity.badRequest().body("Person not found");
 		}
 		personService.patchPerson(person);
-        
+		logger.info(person);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("FirstName and LastName cant be modified. Person updated successfully");
     }
 	
@@ -130,7 +131,7 @@ public class PersonController {
 			return ResponseEntity.badRequest().body("Person not found");
 		}
 		personService.removePerson(person);
-        
+		logger.info(person);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Person removed successfully");
     }
     

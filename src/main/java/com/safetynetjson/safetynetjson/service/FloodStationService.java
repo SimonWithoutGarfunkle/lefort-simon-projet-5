@@ -6,8 +6,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.safetynetjson.safetynetjson.model.JsonData;
@@ -25,7 +25,7 @@ public class FloodStationService {
 	private final JsonDataService jsonDataService;
 	private final MedicalrecordService medicalRecordService;
 	
-    private static Logger logger = LoggerFactory.getLogger(FloodStationService.class);
+	private static final Logger logger = LogManager.getLogger(FloodStationService.class);
 
 	public FloodStationService(FirestationService firestationService, JsonDataService jsonDataService,
 			MedicalrecordService medicalRecordService) {

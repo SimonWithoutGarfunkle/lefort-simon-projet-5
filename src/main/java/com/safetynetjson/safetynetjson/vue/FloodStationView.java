@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FloodStationView {
-	private static Logger logger = LoggerFactory.getLogger(FloodStationView.class);
+	private static final Logger logger = LogManager.getLogger(FloodStationView.class);
 
 	/**
 	 * Organise la réponse en une liste contenant d'abord la liste des adresses couvertes puis la liste des personnes

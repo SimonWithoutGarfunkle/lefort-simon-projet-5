@@ -2,8 +2,8 @@ package com.safetynetjson.safetynetjson.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +37,7 @@ public class MedicalrecordController {
 	
 	private final MedicalrecordService medicalrecordService;
 	
-    private static Logger logger = LoggerFactory.getLogger(MedicalrecordController.class);
+	private static final Logger logger = LogManager.getLogger(MedicalrecordController.class);
 	
 	public MedicalrecordController(JsonDataService jsonDataService, MedicalrecordService medicalrecordService) {
         this.jsonDataService = jsonDataService;
@@ -55,6 +55,7 @@ public class MedicalrecordController {
 		JsonData jsonData = jsonDataService.getJsonData();
 
 		List<Medicalrecord> medicalrecords = jsonData.getMedicalrecords();
+		logger.info(medicalrecords);
 	    
 	    return ResponseEntity.ok(medicalrecords);
 	}
@@ -71,6 +72,7 @@ public class MedicalrecordController {
 			return ResponseEntity.badRequest().body("Medicalrecord already exists");
 		}
 		medicalrecordService.addMedicalrecord(medicalrecord);
+		logger.info(medicalrecord);
         
         return ResponseEntity.status(HttpStatus.CREATED).body("Medicalrecord added successfully");
     }
@@ -90,6 +92,7 @@ public class MedicalrecordController {
 			return ResponseEntity.badRequest().body("Medicalrecord not found");
 		}
 		medicalrecordService.updateMedicalrecord(medicalrecord);
+		logger.info(medicalrecord);
         
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("FirstName and LastName cant be modified. Medicalrecord updated successfully");
     }
@@ -109,6 +112,7 @@ public class MedicalrecordController {
 			return ResponseEntity.badRequest().body("Medicalrecord not found");
 		}
 		medicalrecordService.patchMedicalrecord(medicalrecord);
+		logger.info(medicalrecord);
         
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("FirstName and LastName cant be modified. Medicalrecord updated successfully");
     }
@@ -129,6 +133,7 @@ public class MedicalrecordController {
 			return ResponseEntity.badRequest().body("Medicalrecord not found");
 		}
 		medicalrecordService.removeMedicalrecord(medicalrecord);
+		logger.info(medicalrecord);
         
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Medicalrecord removed successfully");
     }

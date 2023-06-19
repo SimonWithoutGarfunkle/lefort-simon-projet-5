@@ -3,8 +3,8 @@ package com.safetynetjson.safetynetjson.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.safetynetjson.safetynetjson.model.JsonData;
@@ -19,7 +19,7 @@ import com.safetynetjson.safetynetjson.model.Person;
 public class PersonService {
 
 	private final JsonDataService jsonDataService;
-	private static Logger logger = LoggerFactory.getLogger(PersonService.class);
+	private static final Logger logger = LogManager.getLogger(PersonService.class);
 
 
 	public PersonService(JsonDataService jsonDataService) {

@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.safetynetjson.safetynetjson.model.JsonData;
@@ -25,7 +25,7 @@ public class MedicalrecordService {
 
 	private final JsonDataService jsonDataService;
 	
-	private static Logger logger = LoggerFactory.getLogger(MedicalrecordService.class);
+	private static final Logger logger = LogManager.getLogger(MedicalrecordService.class);
 
 	public MedicalrecordService(JsonDataService jsonDataService) {
 		this.jsonDataService = jsonDataService;

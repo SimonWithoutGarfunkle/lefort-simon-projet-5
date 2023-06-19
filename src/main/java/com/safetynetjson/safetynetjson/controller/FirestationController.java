@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -47,7 +47,7 @@ public class FirestationController {
     
     private final PersonWithMedicalrecordService personWithAgeService;
     
-    private static Logger logger = LoggerFactory.getLogger(FirestationController.class);
+    private static final Logger logger = LogManager.getLogger(FirestationController.class);
 	
 	public FirestationController(JsonDataService jsonDataService,
 			FirestationService firestationService, PersonsByStationNumber personsByStationNumber, 
@@ -71,6 +71,7 @@ public class FirestationController {
 		JsonData jsonData = jsonDataService.getJsonData();
 
 		List<Firestation> firestations = jsonData.getFirestations();
+		logger.info(firestations);
 	    
 	    return ResponseEntity.ok(firestations);
 	}
@@ -91,7 +92,7 @@ public class FirestationController {
 			return ResponseEntity.badRequest().body("Address already registered");
 		}
 		firestationService.addFirestation(firestation);
-        
+		logger.info(firestation);
         return ResponseEntity.status(HttpStatus.CREATED).body("Firestation added successfully");
     }
 	
@@ -109,7 +110,7 @@ public class FirestationController {
 			return ResponseEntity.badRequest().body("Firestation not found");
 		}
 		firestationService.updateFirestation(firestation);
-        
+		logger.info(firestation);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Firestation station updated successfully");
     }
 	
@@ -163,6 +164,7 @@ public class FirestationController {
         response.put("personCount", personWithAgeService.countPeople(persons));
         response.put("childrenCount", personWithAgeService.countChild(persons));
 
+        logger.info(response);
         return response;
     }
     

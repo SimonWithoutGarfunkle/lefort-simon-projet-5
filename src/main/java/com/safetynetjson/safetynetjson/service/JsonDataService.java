@@ -1,7 +1,7 @@
 package com.safetynetjson.safetynetjson.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.safetynetjson.safetynetjson.model.JsonData;
@@ -18,7 +18,7 @@ public class JsonDataService {
 	
 	private JsonReader jsonReader;
 	
-    private static Logger logger = LoggerFactory.getLogger(JsonDataService.class);
+	private static final Logger logger = LogManager.getLogger(JsonDataService.class);
 	
     public JsonDataService(JsonReader jsonReader) {
         this.jsonReader = jsonReader;
@@ -40,5 +40,16 @@ public class JsonDataService {
     public void setJsonData(JsonData jsonData) {
         this.jsonData = jsonData;
     }
+    
+    /**
+     * Réinitialise la base de données pour assurer l'indépendance des tests
+     * 
+     * @return la base de données 
+     */
+    public JsonData updateJsonData() {
+        JsonReader jsonReader = new JsonReader();
+        return jsonData = jsonReader.readJson();
+    }
+    
 
 }

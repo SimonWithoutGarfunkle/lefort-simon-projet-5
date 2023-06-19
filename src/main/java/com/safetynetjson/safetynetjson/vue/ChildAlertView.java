@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
@@ -19,7 +19,7 @@ import com.safetynetjson.safetynetjson.model.PersonWithMedicalrecord;
 @Component
 public class ChildAlertView {
 	
-	private static Logger logger = LoggerFactory.getLogger(ChildAlertView.class);
+	private static final Logger logger = LogManager.getLogger(ChildAlertView.class);
 
 
 	/**
