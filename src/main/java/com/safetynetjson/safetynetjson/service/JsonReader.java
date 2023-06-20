@@ -19,7 +19,7 @@ import com.safetynetjson.safetynetjson.model.JsonData;
 @Component
 public class JsonReader {
 
-	ObjectMapper objectMapper = new ObjectMapper();
+	public ObjectMapper objectMapper = new ObjectMapper();
 
 	private static final String JSON_FILE_PATH = "src/main/resources/data.json";
 
@@ -40,6 +40,7 @@ public class JsonReader {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			return null;
 		}
 		return jsonData;
 

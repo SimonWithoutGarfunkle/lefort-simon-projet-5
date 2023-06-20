@@ -23,8 +23,7 @@ public class ChildByAddress {
 	
 	private static final Logger logger = LogManager.getLogger(ChildByAddress.class);
 	
-	public ChildByAddress(JsonDataService jsonDataService, PersonService personService,
-			PersonWithMedicalrecordService personWithAgeService) {
+	public ChildByAddress(PersonWithMedicalrecordService personWithAgeService) {
 		this.personWithAgeService = personWithAgeService;
 	}
 

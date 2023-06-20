@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -113,7 +114,7 @@ public class FirestationServiceTest {
 		addressCovered = firestationService.addressCoveredByStation(firestationToTest);
 
 		// Assert
-		assertTrue(addressCovered.size()==1);
+		assertTrue(addressCovered.size() == 1);
 		assertTrue(addressCovered.contains("addressTest"));
 	}
 
@@ -129,7 +130,20 @@ public class FirestationServiceTest {
 		assertTrue(stationtest == 99);
 
 	}
-	
+
+	@Test
+	public void getStationFromAddressTestUnknownAddress() {
+		// Arrange
+		Long stationtest;
+
+		// Act
+		stationtest = firestationService.getStationFromAddress("aaaaaaaaaaaa");
+
+		// Assert
+		assertNull(stationtest);
+
+	}
+
 	@Test
 	public void returnFirestationFromBaseTest() {
 		// Arrange
@@ -144,7 +158,23 @@ public class FirestationServiceTest {
 		// Assert
 		assertTrue(firestationService.isPresent(result));
 
-		
+	}
+
+	@Test
+	public void returnFirestationFromBaseTestIllogicalData() {
+		// Arrange
+		FirestationService firestationService = Mockito.spy(new FirestationService(jsonDataService));
+		Firestation firestationToTest = new Firestation();
+		firestationToTest.setAddress("addressToTest");
+		firestationToTest.setStation(1L);
+		Mockito.doReturn(true).when(firestationService).isPresent(firestationToTest);
+
+		// Act
+		Firestation result = firestationService.returnFirestationFromBase(firestationToTest);
+
+		// Assert
+		assertNull(result);
+
 	}
 
 }

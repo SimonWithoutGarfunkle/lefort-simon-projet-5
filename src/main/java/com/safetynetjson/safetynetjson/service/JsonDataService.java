@@ -34,7 +34,9 @@ public class JsonDataService {
     		logger.info("Instanciation de la base de donnees");
     		jsonData = jsonReader.readJson();
     	}
-        return jsonData;
+        System.out.println("ok");
+        System.out.println(jsonData);
+    	return jsonData;
     }
 
     public void setJsonData(JsonData jsonData) {
