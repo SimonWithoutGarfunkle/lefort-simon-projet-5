@@ -161,8 +161,8 @@ public class PersonServiceTest {
 	@Test
 	public void returnPersonFromBaseTest() {
 		// Arrange
-		Person personNameTest = createTestPerson();
-		personService.addPerson(personNameTest);
+		Person personForTest = createTestPerson();
+		personService.addPerson(personForTest);
 		Person testIsPresentPerson = new Person();
 		testIsPresentPerson.setFirstName("firstNameTest");
 		testIsPresentPerson.setLastName("lastNameTest");
@@ -192,8 +192,8 @@ public class PersonServiceTest {
 	public void returnPersonFromBaseTestOnlyFirstNameFound() {
 		// Arrange
 		Person testIsPresentPerson = new Person();
-		testIsPresentPerson.setFirstName("firstNameTest");
-		testIsPresentPerson.setLastName("azerty");
+		testIsPresentPerson.setFirstName("azerty");
+		testIsPresentPerson.setLastName("lastNameTest");
 		
 		
 		// Act
