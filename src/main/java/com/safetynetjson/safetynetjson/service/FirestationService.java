@@ -134,6 +134,8 @@ public class FirestationService {
 	/**
 	 * Supprime la caserne si elle est présente
 	 * Si seule l'adresse est connue, supprime le mapping avec le n° de caserne pour l'adresse indiquée
+	 * Si l'adresse et le n° correspondent, supprime toute la caserne
+	 * 
 	 * @param firestation
 	 * @return String précisant l'action effectuée (failed, mapping removed ou firestation removed)
 	 */

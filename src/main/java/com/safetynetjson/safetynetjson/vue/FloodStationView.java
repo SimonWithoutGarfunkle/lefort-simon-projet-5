@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FloodStationView {
+	
 	private static final Logger logger = LogManager.getLogger(FloodStationView.class);
 
 	/**

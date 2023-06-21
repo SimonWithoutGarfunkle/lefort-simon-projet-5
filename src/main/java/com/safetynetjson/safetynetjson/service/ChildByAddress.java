@@ -44,6 +44,7 @@ public class ChildByAddress {
 			}
 			
 		}
+		//S'il n'y a aucun enfant dans la liste, il faut retourner une liste vide
 		if (countChildren==0) {
 			logger.info("Aucun enfant dans la liste, suppression du resultat");
 			result.clear();

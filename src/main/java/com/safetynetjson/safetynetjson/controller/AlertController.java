@@ -114,6 +114,7 @@ public class AlertController {
 		for (Person person : persons) {
 			String phoneNumber = person.getPhone();
 
+			//Suppression des doublons
 			if (!phoneNumbers.contains(phoneNumber)) {
 				phoneNumbers.add(phoneNumber);
 			}

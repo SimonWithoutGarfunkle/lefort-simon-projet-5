@@ -11,16 +11,16 @@ import com.safetynetjson.safetynetjson.model.JsonData;
 import com.safetynetjson.safetynetjson.model.Person;
 
 /**
- * Service dédié au CRUD et autres requetes basiques pour la table Person (personnes)
+ * Service dédié au CRUD et autres methodes basiques pour la table Person (personnes)
  * @author Simon
  *
  */
 @Service
 public class PersonService {
-
-	private final JsonDataService jsonDataService;
+	
 	private static final Logger logger = LogManager.getLogger(PersonService.class);
 
+	private final JsonDataService jsonDataService;
 
 	public PersonService(JsonDataService jsonDataService) {
 		this.jsonDataService = jsonDataService;

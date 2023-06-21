@@ -25,7 +25,7 @@ public class JsonDataService {
     }
 
     /**
-     * Extrait la base de données au premier appel puis la transmet lors des appels suivants
+     * Extrait la base de données du fichier json source au premier appel puis la transmet lors des appels suivants
      * 
      * @return la base de données complète
      */
@@ -34,8 +34,6 @@ public class JsonDataService {
     		logger.info("Instanciation de la base de donnees");
     		jsonData = jsonReader.readJson();
     	}
-        System.out.println("ok");
-        System.out.println(jsonData);
     	return jsonData;
     }
 

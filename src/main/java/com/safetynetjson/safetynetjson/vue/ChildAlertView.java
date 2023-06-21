@@ -21,7 +21,6 @@ public class ChildAlertView {
 	
 	private static final Logger logger = LogManager.getLogger(ChildAlertView.class);
 
-
 	/**
 	 * Organise la liste des personnes en 2 sous listes : les enfants (18 ans et moins) puis les adultes
 	 * 

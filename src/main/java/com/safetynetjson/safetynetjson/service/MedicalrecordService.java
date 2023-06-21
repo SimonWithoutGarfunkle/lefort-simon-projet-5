@@ -170,7 +170,7 @@ public class MedicalrecordService {
 			}
 
 		}
-		System.out.println("Medical Record of the person not found");
+		logger.error("Medical Record of the person not found");
 		return -1;
 
 	}
@@ -194,7 +194,7 @@ public class MedicalrecordService {
 			}
 
 		}
-		System.out.println("Medical Record of the person not found");
+		logger.error("Medical Record of the person not found");
 		return result;
 
 	}
@@ -219,7 +219,7 @@ public class MedicalrecordService {
 			}
 
 		}
-		System.out.println("Medical Record of the person not found");
+		logger.error("Medical Record of the person not found");
 		return result;
 
 	}

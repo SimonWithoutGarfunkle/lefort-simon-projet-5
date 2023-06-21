@@ -37,7 +37,7 @@ public class CommunityEmail {
 		List<Person> persons = jsonData.getPersons();
 		List<String> emailsOfCity = new ArrayList<String>();
 		for (Person someone : persons) {
-			if (someone.getCity().equals(city)) {
+			if (someone.getCity().equals(city) && (!emailsOfCity.contains(someone.getEmail()))) {
 				emailsOfCity.add(someone.getEmail());
 			}
 		}
